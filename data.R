@@ -1,10 +1,12 @@
+
+# retter
 retter <- tibble::tribble(
   ~retter, ~key, ~type,
   "V\u00E6lg ret", "", "",
   "M\u00F8rbradgryde", "morbrad_opskr", "gris", 
   "Carbonara", "carbonara_opskr", "gris",
-  "Fiskefilet", "", "fisk",
-  "Pizza", "", "vegetar|gris|okse",
+  "Fiskefilet", "fiskefilet_opsk", "fisk",
+  "Pizza", "pizza_opsk", "vegetar|gris|okse",
   "Burger", "", "okse|gris",
   "Frikadeller", "", "gris",
   "Dahl", "", "vegetar",
@@ -22,6 +24,7 @@ retter <- tibble::tribble(
 
 retter$count <- 1
 
+# opskrifter
 morbrad_opskr <- tibble::tribble(
   ~"M\u00F8rbradgryde", ~"maengde", ~"enhed", 
   "svinem\u00F8rbrad", 0.5, "stk",
@@ -46,5 +49,28 @@ carbonara_opskr <- tibble::tribble(
   "bacon i tern", 100, "gram"
 )
 
+fiskefilet_opsk <- tibble::tribble(
+  ~"Fiskefilet", ~"maengde", ~"enhed",
+  "fiskefilet", 1, "stk",
+  "remoulade (tilbeh\u00F8r)", NA, "",
+  "citronsaft (tilbeh\u00F8r)", NA, "",
+  "kartofler", 0.5, "kg"
+)
+
+pizza_opsk <- tibble::tribble(
+  ~"Pizza", ~"maengde", ~"enhed",
+  "tipo 00 mel", 125, "gram",
+  "durummel", 25, "gram",
+  "l\u00F8g", 0.25, "stk",
+  "hvidl\u00F8g", 1, "stk",
+  "balsamico", 0.05, "dl",
+  "tomatpure", 0.5, "d\u00E5se(r)",
+  "fl\u00E5et tomater", 0.5, "d\u00E5se(r)",
+  "Engelsk sovs (tilsmagning)", NA, "",
+  "frisk mozzarella", 1, "stk"
+)
+
 opskrifter <- list(morbrad_opskr = morbrad_opskr,
-                   carbonara_opskr = carbonara_opskr)
+                   carbonara_opskr = carbonara_opskr,
+                   fiskefilet_opsk = fiskefilet_opsk,
+                   pizza_opsk = pizza_opsk)
