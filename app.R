@@ -51,9 +51,7 @@ ui <- fluidPage(
             div(style = "display: inline-block;vertical-align:top; width: 140px;",
                 selectInput("sondag", "S\u00F8ndag:", choices = retter$retter)),
             div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("son_antal_pers", "Antal personer", value = 2)),
-
-            downloadButton("download1", "Hent Indk\u00F8bsliste")
+                numericInput("son_antal_pers", "Antal personer", value = 2))
             ),
 
         # Show a plot of the generated distribution
@@ -63,8 +61,7 @@ ui <- fluidPage(
                     tabPanel("Inspiration",
                         selectInput("menu_type", "V\u00E6lg type",
                                     c("Alle", "Vegetar", "Kylling", "Gris", "Okse")),
-                        #wordcloud2Output("wordcloud_retter")#,
-                        plotOutput("wordcloud_retter")
+                        wordcloud2Output("wordcloud_retter")
                     ),
                     tabPanel("Opskrifter",
                              fluidRow(
@@ -99,59 +96,22 @@ ui <- fluidPage(
 server <- function(input, output) {
 
     # word cloud plot
-    # output$wordcloud_retter <- renderWordcloud2({
-    # 
-    #     retter_tmp <- retter
-    # 
-    #     if (input$menu_type != "Alle") {
-    #         retter_tmp <- filter(retter_tmp, grepl(tolower(input$menu_type), type))
-    #     }
-    # 
-    #     retter_tmp %>%
-    #      filter(retter != "V\u00E6lg ret") %>%
-    #      select(retter, count) %>%
-    #      wordcloud2(retter, size = .3, color = 'random-dark', backgroundColor = "white",
-    #                 minRotation = pi/3, maxRotation = pi/2, shape = "cardioid",
-    #                 rotateRatio = 0.3)
-    # })
+    output$wordcloud_retter <- renderWordcloud2({
 
-    output$wordcloud_retter <- renderPlot({
+        retter_tmp <- retter
 
-      retter_tmp <- retter
+        if (input$menu_type != "Alle") {
+            retter_tmp <- filter(retter_tmp, grepl(tolower(input$menu_type), type))
+        }
 
-      if (input$menu_type != "Alle") {
-        retter_tmp <- filter(retter_tmp, grepl(tolower(input$menu_type), type))
-      }
-      
-      # wordcloud(retter_tmp$retter, retter_tmp$count, 
-      #           rot.per=0.35, colors = brewer.pal(8, "Dark2"))
-
-      retter_tmp <- retter_tmp %>% filter(retter_tmp != "V\u00E6lg ret") %>%
-        mutate(angle = 40 * sample(-2:2, n(), replace = TRUE, prob = c(1, 1, 4, 1, 1)))
-
-      ggplot(retter_tmp,
-             aes(label = retter,
-                         color = factor(sample.int(15, nrow(retter_tmp), replace = TRUE)),
-                         angle = angle)) +
-        # geom_text_wordcloud() +
-        geom_text_wordcloud_area() +
-        scale_size_area(max_size = 14) +
-        theme_minimal()
-      
-    # myCorpus = Corpus(VectorSource(retter_tmp$retter))
-    # myDTM = TermDocumentMatrix(myCorpus, control = list(minWordLength = 1))
-    # 
-    # m = as.matrix(myDTM)
-    # 
-    # wordcloud_rep <- repeatable(wordcloud)
-    # 
-    #   #v <- terms()
-    #   wordcloud_rep(names(m), m, 
-    #                 min.freq = 1, max.words = 4,
-    #                 colors=brewer.pal(8, "Dark2"))
-
+        retter_tmp %>%
+         filter(retter != "V\u00E6lg ret") %>%
+         select(retter, count) %>%
+         wordcloud2(retter, size = .3, color = 'random-dark', backgroundColor = "white",
+                    minRotation = pi/3, maxRotation = pi/2, shape = "cardioid",
+                    rotateRatio = 0.3)
     })
-    
+
     # Opskrifter ----
     opskrift <- function(opskrifter, retter, dag, antal) {
         
@@ -181,7 +141,8 @@ server <- function(input, output) {
             opskrift <- NULL
         }
 
-        DT::datatable(opskrift, rownames = NULL, options = list(dom = 't', ordering = FALSE))
+        DT::datatable(opskrift, rownames = NULL, 
+                      options = list(dom = 't', ordering = FALSE))
     }
     
     mandag <- reactive(opskrift(opskrifter, retter, input$mandag, input$man_antal_pers))
@@ -233,20 +194,20 @@ server <- function(input, output) {
     
     output$indkobsseddel <- DT::renderDataTable({
 
-        DT::datatable(indkobsseddel(), rownames = NULL,
-                      options = list(dom = 't', ordering = FALSE,
-                                     pageLength = nrow(indkobsseddel())))
+        DT::datatable(indkobsseddel(), rownames = NULL, extensions = 'Buttons',
+                      options = list(dom = "B", ordering = FALSE,
+                                     pageLength = nrow(indkobsseddel()),
+                                     buttons = list('copy',
+                                                    list(
+                                                      extend = "csv",
+                                                      charset = "utf-8",
+                                                      bom = TRUE
+                                                    ))
+                                     ),
+                      editable = TRUE
+                      )
         })
     
-    # download liste ----
-    output$download1 <- downloadHandler(
-      filename = function() {
-        paste("Indk\u00F8bsseddel.csv")
-      },
-      content = function(file) {
-        write.csv(indkobsseddel(), file, row.names = FALSE)
-      }
-    )
 }
 
 # Run the application 
