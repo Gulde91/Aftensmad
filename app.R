@@ -1,0 +1,301 @@
+library(shiny)
+library(shinydashboard)
+library(DT)
+library(wordcloud2)
+library(dplyr)
+library(ggwordcloud)
+library(rsconnect)
+
+retter <- tibble::tribble(
+  ~retter, ~key, ~type,
+  "V\u00E6lg ret", "", "",
+  "M\u00F8rbradgryde", "morbrad_opskr", "gris", 
+  "Carbonara", "carbonara_opskr", "gris",
+  "Fiskefilet", "", "fisk",
+  "Pizza", "", "vegetar|gris|okse",
+  "Burger", "", "okse|gris",
+  "Frikadeller", "", "gris",
+  "Dahl", "", "vegetar",
+  "Madpandekager", "", "kylling", 
+  "Ravioli", "", "vegetar",
+  "Bacon broccoli T\u00E6rte", "", "gris",
+  "Kyllingebowl", "", "kylling",
+  "Lasagne", "", "kylling",
+  "Kalkunschnitzel", "", "kalkun",
+  "Risengr\u00F8d", "", "vegetar",
+  "Madpangekager p\u00E5 panden", "", "kylling",
+  "Chili con carne", "", "okse",
+  "Br\u00E6ndende k\u00E6rlighed", "", "gris",
+  "Kartoffel-porre suppe", "", "gris")
+
+retter$count <- 1
+
+morbrad_opskr <- tibble::tribble(
+  ~"M\u00F8rbradgryde", ~"maengde", ~"enhed", 
+  "svinem\u00F8rbrad", 0.5, "stk",
+  "cocktailp\u00F8lser", 100, "gram", 
+  "bacon i skiver", 0.5, "pakke(r)",
+  "l\u00F8g", 0.5, "stk",
+  "tomatpuré", 0.5, "d\u00E5se(r)",
+  "gr\u00F8nsagsbouillon", 0.5, "stk",
+  "oksebouillon", 0.5, "stk",
+  "Ribsgelé (tilsmagning)", NA, "",
+  "Paprika (tilsmagning)", NA, "",
+  "Engelsk sovs (tilsmagning)", NA, ""
+)
+
+carbonara_opskr <- tibble::tribble(
+  ~"Carbonara", ~"maengde", ~"enhed",
+  "spaghetti", 90, "gram",
+  "parmesan", 25, "gram",
+  "\u00E6ggeblommer", 1, "stk",
+  "piskefl\u00F8de", 0.5, "dl",
+  "l\u00F8g", 0.5, "stk",
+  "bacon i tern", 100, "gram"
+)
+
+opskrifter <- list(morbrad_opskr = morbrad_opskr,
+                   carbonara_opskr = carbonara_opskr)
+
+# Define UI for application that draws a histogram ----
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Planl\u00E6g aftensmad"),
+    
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(width = 3,
+            div(style = "display: inline-block;vertical-align:top; width: 140px;",
+                selectInput("mandag", "Mandag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                numericInput("man_antal_pers", "Antal personer", value = 2)),
+
+            div(style = "display: inline-block;vertical-align:top; width: 140px;",
+                selectInput("tirsdag", "Tirsdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                numericInput("tirs_antal_pers", "Antal personer", value = 2)),
+
+            div(style = "display: inline-block;vertical-align:top; width: 140px;",
+                selectInput("onsdag", "Onsdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                numericInput("ons_antal_pers", "Antal personer", value = 2)),
+
+            div(style = "display: inline-block;vertical-align:top; width: 140px;",
+                selectInput("torsdag", "Torsdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                numericInput("tors_antal_pers", "Antal personer", value = 2)),
+
+            div(style = "display: inline-block;vertical-align:top; width: 140px;",
+                selectInput("fredag", "Fredag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                numericInput("fre_antal_pers", "Antal personer", value = 2)),
+
+            div(style = "display: inline-block;vertical-align:top; width: 140px;",
+                selectInput("lordag", "L\u00F8rdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                numericInput("lor_antal_pers", "Antal personer", value = 2)),
+
+            div(style = "display: inline-block;vertical-align:top; width: 140px;",
+                selectInput("sondag", "S\u00F8ndag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                numericInput("son_antal_pers", "Antal personer", value = 2)),
+
+            downloadButton("download1", "Hent Indk\u00F8bsliste")
+            ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+             fluidRow(
+                 tabsetPanel(
+                    tabPanel("Inspiration",
+                        selectInput("menu_type", "V\u00E6lg type",
+                                    c("Alle", "Vegetar", "Kylling", "Gris", "Okse")),
+                        #wordcloud2Output("wordcloud_retter")#,
+                        plotOutput("wordcloud_retter")
+                    ),
+                    tabPanel("Opskrifter",
+                             fluidRow(
+                        box(width = 3, title = "Mandag", status = "warning",
+                            DT::dataTableOutput("dt_mandag")),
+                        box(width = 3, title = "Tirsdag", status = "warning",
+                            DT::dataTableOutput("dt_tirsdag")),
+                        box(width = 3, title = "Onsdag", status = "warning",
+                            DT::dataTableOutput("dt_onsdag")),
+                        box(width = 3, title = "Torsdag", status = "warning",
+                            DT::dataTableOutput("dt_torsdag"))
+                        ),
+                        fluidRow(
+                        box(width = 3, title = "Fredag", status = "warning",
+                            DT::dataTableOutput("dt_fredag")),
+                        box(width = 3, title = "L\u00F8rdag", status = "warning",
+                            DT::dataTableOutput("dt_lordag")),
+                        box(width = 3, title = "S\u00F8ndag", status = "warning",
+                            DT::dataTableOutput("dt_sondag"))
+                        )
+                    ),
+                    tabPanel("Indk\u00F8bsliste",
+                             box(width = 4,DT::dataTableOutput("indkobsseddel"))
+                             )
+                 )
+             )
+        )
+    )
+)
+
+# Define server logic required to draw a histogram ----
+server <- function(input, output) {
+
+    # word cloud plot
+    # output$wordcloud_retter <- renderWordcloud2({
+    # 
+    #     retter_tmp <- retter
+    # 
+    #     if (input$menu_type != "Alle") {
+    #         retter_tmp <- filter(retter_tmp, grepl(tolower(input$menu_type), type))
+    #     }
+    # 
+    #     retter_tmp %>%
+    #      filter(retter != "V\u00E6lg ret") %>%
+    #      select(retter, count) %>%
+    #      wordcloud2(retter, size = .3, color = 'random-dark', backgroundColor = "white",
+    #                 minRotation = pi/3, maxRotation = pi/2, shape = "cardioid",
+    #                 rotateRatio = 0.3)
+    # })
+
+    output$wordcloud_retter <- renderPlot({
+
+      retter_tmp <- retter
+
+      if (input$menu_type != "Alle") {
+        retter_tmp <- filter(retter_tmp, grepl(tolower(input$menu_type), type))
+      }
+      
+      # wordcloud(retter_tmp$retter, retter_tmp$count, 
+      #           rot.per=0.35, colors = brewer.pal(8, "Dark2"))
+
+      retter_tmp <- retter_tmp %>% filter(retter_tmp != "V\u00E6lg ret") %>%
+        mutate(angle = 40 * sample(-2:2, n(), replace = TRUE, prob = c(1, 1, 4, 1, 1)))
+
+      ggplot(retter_tmp,
+             aes(label = retter,
+                         color = factor(sample.int(15, nrow(retter_tmp), replace = TRUE)),
+                         angle = angle)) +
+        # geom_text_wordcloud() +
+        geom_text_wordcloud_area() +
+        scale_size_area(max_size = 14) +
+        theme_minimal()
+      
+    # myCorpus = Corpus(VectorSource(retter_tmp$retter))
+    # myDTM = TermDocumentMatrix(myCorpus, control = list(minWordLength = 1))
+    # 
+    # m = as.matrix(myDTM)
+    # 
+    # wordcloud_rep <- repeatable(wordcloud)
+    # 
+    #   #v <- terms()
+    #   wordcloud_rep(names(m), m, 
+    #                 min.freq = 1, max.words = 4,
+    #                 colors=brewer.pal(8, "Dark2"))
+
+    })
+    
+    # Opskrifter ----
+    opskrift <- function(opskrifter, retter, dag, antal) {
+        
+        if (dag != "V\u00E6lg ret") {
+            
+            opskrift <- opskrifter[[retter$key[retter$retter == dag]]]
+            
+            # tilpasser enheder
+            opskrift$maengde <- opskrift$maengde * antal
+            
+            opskrift
+            
+        } else {
+            NULL
+        }
+    }
+    
+    display_opskrift <- function(opskrift, dag) {
+        
+        if (dag != "V\u00E6lg ret") {
+            
+            # output data
+            opskrift[[dag]] <- paste(opskrift$maengde, opskrift$enhed, opskrift[[dag]])
+            opskrift[[dag]] <- gsub("NA", "", opskrift[[dag]]) %>% trimws()
+            opskrift <- opskrift[, c(dag)]
+        } else {
+            opskrift <- NULL
+        }
+
+        DT::datatable(opskrift, rownames = NULL, options = list(dom = 't', ordering = FALSE))
+    }
+    
+    mandag <- reactive(opskrift(opskrifter, retter, input$mandag, input$man_antal_pers))
+    tirsdag <- reactive(opskrift(opskrifter, retter, input$tirsdag, input$tirs_antal_pers))
+    onsdag <- reactive(opskrift(opskrifter, retter, input$onsdag, input$ons_antal_pers))
+    torsdag <- reactive(opskrift(opskrifter, retter, input$torsdag, input$tors_antal_pers))
+    fredag <- reactive(opskrift(opskrifter, retter, input$fredag, input$fre_antal_pers))
+    lordag <- reactive(opskrift(opskrifter, retter, input$lordag, input$lor_antal_pers))
+    sondag <- reactive(opskrift(opskrifter, retter, input$sondag, input$son_antal_pers))
+
+    output$dt_mandag <- DT::renderDataTable(display_opskrift(mandag(), input$mandag))
+    output$dt_tirsdag <- DT::renderDataTable(display_opskrift(tirsdag(), input$tirsdag))
+    output$dt_onsdag <- DT::renderDataTable(display_opskrift(onsdag(), input$onsdag))
+    output$dt_torsdag <- DT::renderDataTable(display_opskrift(torsdag(), input$torsdag))
+    output$dt_fredag <- DT::renderDataTable(display_opskrift(fredag(), input$fredag))
+    output$dt_lordag <- DT::renderDataTable(display_opskrift(lordag(), input$lordag))
+    output$dt_sondag<- DT::renderDataTable(display_opskrift(sondag(), input$sondag))
+    
+    # Indkøbsliste ----
+    indkobsseddel <- reactive({
+        
+        indkob <- list(mandag(), tirsdag(), onsdag(), torsdag(), 
+                       fredag(), lordag(), sondag())
+        
+        indkob <- indkob[lengths(indkob) != 0]
+        
+        if (length(indkob) > 0) {
+            
+            col_names <- c("Indkobsliste", "maengde", "enhed")
+            indkob <- lapply(indkob, setNames, col_names)
+            indkob <- bind_rows(indkob)
+            
+            indkob <- indkob %>% 
+                group_by(Indkobsliste, enhed) %>% 
+                summarise(maengde = sum(maengde), .groups = "drop")
+            
+            indkob$Indkobsliste <- paste(indkob$maengde, indkob$enhed, indkob$Indkobsliste)
+            indkob$Indkobsliste <- gsub("NA", "", indkob$Indkobsliste) %>% trimws()
+            indkob <- indkob[, "Indkobsliste"]
+            
+        } else {
+            indkob <- NULL
+        }
+        
+        indkob
+    })
+    
+    output$indkobsseddel <- DT::renderDataTable({
+
+        DT::datatable(indkobsseddel(), rownames = NULL,
+                      options = list(dom = 't', ordering = FALSE,
+                                     pageLength = nrow(indkobsseddel())))
+        })
+    
+    # download liste ----
+    output$download1 <- downloadHandler(
+      filename = function() {
+        paste("Indk\u00F8bsseddel.csv")
+      },
+      content = function(file) {
+        write.csv(indkobsseddel(), file, row.names = FALSE)
+      }
+    )
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+
