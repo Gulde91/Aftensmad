@@ -6,6 +6,7 @@ library(dplyr)
 
 # henter retter og opskrifter
 source("./data.R")
+source("./funktioner.R")
 
 # Define UI for application that draws a histogram ----
 ui <- fluidPage(
@@ -16,40 +17,57 @@ ui <- fluidPage(
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
         sidebarPanel(width = 3,
-            div(style = "display: inline-block;vertical-align:top; width: 140px;",
-                selectInput("mandag", "Mandag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("man_antal_pers", "Antal personer", value = 2)),
+            
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("man_ret", "Mandag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+                numericInput("man_pers", "Pers.", value = 2)),
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("man_salat", "Salat", choices = salater)),
+            #br(),
 
-            div(style = "display: inline-block;vertical-align:top; width: 140px;",
-                selectInput("tirsdag", "Tirsdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("tirs_antal_pers", "Antal personer", value = 2)),
-
-            div(style = "display: inline-block;vertical-align:top; width: 140px;",
-                selectInput("onsdag", "Onsdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("ons_antal_pers", "Antal personer", value = 2)),
-
-            div(style = "display: inline-block;vertical-align:top; width: 140px;",
-                selectInput("torsdag", "Torsdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("tors_antal_pers", "Antal personer", value = 2)),
-
-            div(style = "display: inline-block;vertical-align:top; width: 140px;",
-                selectInput("fredag", "Fredag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("fre_antal_pers", "Antal personer", value = 2)),
-
-            div(style = "display: inline-block;vertical-align:top; width: 140px;",
-                selectInput("lordag", "L\u00F8rdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("lor_antal_pers", "Antal personer", value = 2)),
-
-            div(style = "display: inline-block;vertical-align:top; width: 140px;",
-                selectInput("sondag", "S\u00F8ndag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                numericInput("son_antal_pers", "Antal personer", value = 2))
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("tirs_ret", "Tirsdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+                numericInput("tirs_pers", "Pers.", value = 2)),
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("tirs_salat", "Salat", choices = salater)),
+            
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("ons_ret", "Onsdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+                numericInput("ons_pers", "Pers.", value = 2)),
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("ons_salat", "Salat", choices = salater)),
+            
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("tors_ret", "Torsdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+                numericInput("tors_pers", "Pers.", value = 2)),
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("tors_salat", "Salat", choices = salater)),
+            
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("fre_ret", "Fredag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+                numericInput("fre_pers", "Pers.", value = 2)),
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("fre_salat", "Salat", choices = salater)),
+            
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("lor_ret", "L\u00F8rdag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+                numericInput("lor_pers", "Pers.", value = 2)),
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("lor_salat", "Salat", choices = salater)),
+            
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("son_ret", "S\u00F8ndag:", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+                numericInput("son_pers", "Pers.", value = 2)),
+            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                selectInput("son_salat", "Salat", choices = salater)),
+            
             ),
 
         # Show a plot of the generated distribution
@@ -111,59 +129,42 @@ server <- function(input, output) {
     })
 
     # Opskrifter ----
-    opskrift <- function(opskrifter, retter, dag, antal) {
-        
-        if (dag != "V\u00E6lg ret") {
-            
-            opskrift <- opskrifter[[retter$key[retter$retter == dag]]]
-            
-            # tilpasser enheder
-            opskrift$maengde <- opskrift$maengde * antal
-            
-            opskrift
-            
-        } else {
-            NULL
-        }
-    }
-    
-    display_opskrift <- function(opskrift, dag) {
-        
-        if (dag != "V\u00E6lg ret") {
-            
-            # output data
-            opskrift[[dag]] <- paste(opskrift$maengde, opskrift$enhed, opskrift[[dag]])
-            opskrift[[dag]] <- gsub("NA", "", opskrift[[dag]]) %>% trimws()
-            opskrift <- opskrift[, c(dag)]
-        } else {
-            opskrift <- NULL
-        }
+    ret_man <- reactive(opskrift(opskrifter, retter, input$man_ret, input$man_pers))
+    ret_tirs <- reactive(opskrift(opskrifter, retter, input$tirs_ret, input$tirs_pers))
+    ret_ons <- reactive(opskrift(opskrifter, retter, input$ons_ret, input$ons_pers))
+    ret_tors <- reactive(opskrift(opskrifter, retter, input$tors_ret, input$tors_pers))
+    ret_fre <- reactive(opskrift(opskrifter, retter, input$fre_ret, input$fre_pers))
+    ret_lor <- reactive(opskrift(opskrifter, retter, input$lor_ret, input$lor_pers))
+    ret_son <- reactive(opskrift(opskrifter, retter, input$son_ret, input$son_pers))
 
-        DT::datatable(opskrift, rownames = NULL, 
-                      options = list(dom = 't', ordering = FALSE))
-    }
+    salat_man <- reactive(opskrift(salater_opskrifter, salater, input$man_salat, input$man_pers))
+    salat_tirs <- reactive(opskrift(salater_opskrifter, salater, input$tirs_salat, input$tirs_pers))
+    salat_ons <- reactive(opskrift(salater_opskrifter, salater, input$ons_salat, input$ons_pers))
+    salat_tors <- reactive(opskrift(salater_opskrifter, salater, input$tors_salat, input$tors_pers))
+    salat_fre <- reactive(opskrift(salater_opskrifter, salater, input$fre_salat, input$fre_pers))
+    salat_lor <- reactive(opskrift(salater_opskrifter, salater, input$lor_salat, input$lor_pers))
+    salat_son <- reactive(opskrift(salater_opskrifter, salater, input$son_salat, input$son_pers))
     
-    mandag <- reactive(opskrift(opskrifter, retter, input$mandag, input$man_antal_pers))
-    tirsdag <- reactive(opskrift(opskrifter, retter, input$tirsdag, input$tirs_antal_pers))
-    onsdag <- reactive(opskrift(opskrifter, retter, input$onsdag, input$ons_antal_pers))
-    torsdag <- reactive(opskrift(opskrifter, retter, input$torsdag, input$tors_antal_pers))
-    fredag <- reactive(opskrift(opskrifter, retter, input$fredag, input$fre_antal_pers))
-    lordag <- reactive(opskrift(opskrifter, retter, input$lordag, input$lor_antal_pers))
-    sondag <- reactive(opskrift(opskrifter, retter, input$sondag, input$son_antal_pers))
-
-    output$dt_mandag <- DT::renderDataTable(display_opskrift(mandag(), input$mandag))
-    output$dt_tirsdag <- DT::renderDataTable(display_opskrift(tirsdag(), input$tirsdag))
-    output$dt_onsdag <- DT::renderDataTable(display_opskrift(onsdag(), input$onsdag))
-    output$dt_torsdag <- DT::renderDataTable(display_opskrift(torsdag(), input$torsdag))
-    output$dt_fredag <- DT::renderDataTable(display_opskrift(fredag(), input$fredag))
-    output$dt_lordag <- DT::renderDataTable(display_opskrift(lordag(), input$lordag))
-    output$dt_sondag<- DT::renderDataTable(display_opskrift(sondag(), input$sondag))
+    output$dt_mandag <- renderDataTable(
+      display_opskrift(ret_man(), input$man_ret, salat_man(), input$man_salat))
+    output$dt_tirsdag <- renderDataTable(
+      display_opskrift(ret_tirs(), input$tirs_ret, salat_tirs(), input$tirs_salat))
+    output$dt_onsdag <- renderDataTable(
+      display_opskrift(ret_ons(), input$ons_ret, salat_ons(), input$ons_salat))
+    output$dt_torsdag <- renderDataTable(
+      display_opskrift(ret_tors(), input$tors_ret, salat_tors(), input$tors_salat))
+    output$dt_fredag <- renderDataTable(
+      display_opskrift(ret_fre(), input$fre_ret, salat_fre(), input$fre_salat))
+    output$dt_lordag <- renderDataTable(
+      display_opskrift(ret_lor(), input$lor_ret, salat_lor(), input$lor_salat))
+    output$dt_sondag<- renderDataTable(
+      display_opskrift(ret_son(), input$son_ret, salat_son(), input$son_salat))
     
     # Indkøbsliste ----
     indkobsseddel <- reactive({
         
-        indkob_all <- list(mandag(), tirsdag(), onsdag(), torsdag(), 
-                           fredag(), lordag(), sondag())
+        indkob_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
+                           ret_fre(), ret_lor(), ret_son())
         
         names(indkob_all) <- c("Mandag", "Tirsdag", "Onsdag", "Torsdag",
                                "Fredag", "L\u00F8rdag", "S\u00F8ndag")
@@ -185,14 +186,13 @@ server <- function(input, output) {
             indkob$Indkobsliste <- gsub("NA", "", indkob$Indkobsliste) %>% trimws()
             indkob <- indkob[, "Indkobsliste"]
             
-            ###
+            # sætter ugedage
             opskr_navne <- lapply(indkob_all, function(x) names(x)[1]) %>% unlist()
             uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
             uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
             
             indkob <- bind_rows(indkob, uge_overblik_df)
-            ###
-            
+
             names(indkob) <- "Indk\u00F8bsliste"
             
             

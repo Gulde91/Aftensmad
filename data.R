@@ -1,5 +1,5 @@
 
-# retter
+# retter ----
 retter <- tibble::tribble(
   ~retter, ~key, ~type,
   "V\u00E6lg ret", "", "",
@@ -34,6 +34,7 @@ morbrad_opskr <- tibble::tribble(
   "tomatpure", 0.5, "d\u00E5se(r)", "konserves", "tomat",
   "gr\u00F8nsagsbouillon", 0.5, "stk", "konserves", "krydderi",
   "oksebouillon", 0.5, "stk", "konserves", "krydderi",
+  "madlavningsfl\u00F8de", 0.1, "liter", "mejeri", "m\u00E6lk",
   "ribsgele (tilsmagning)", NA, "", "konserves", "",
   "paprika (tilsmagning)", NA, "", "konserves", "krydderi",
   "engelsk sovs (tilsmagning)", NA, "", "konserves", ""
@@ -140,7 +141,7 @@ bacon_kylling_taerte_opskr <- tibble::tribble(
   "f\u00E6rdig t\u00E6rtedej", 0.25, "rulle", "k\u00F8l", "",
   "bacon i tern", 0.25, "pakke(r)", "k\u00F8d", "p\u00E5l\u00E6g",
   "for\u00E5rsl\u00F8g", 0.25, "bundt", "frugt_gr\u00F8nt", "",
-  "frosne \u00E6rter", 0.5, "dl", "frost", "",
+  "frosne \u00E6rter", 50, "gram", "frost", "",
   "karry (tilsmagning)", NA, "", "konserves", "krydderi",
   "chiliflager (tilsmagning)", NA, "", "konserves", "krydderi",
   "\u00E6g", 1.25, "stk", "mejeri", "",
@@ -248,13 +249,13 @@ kartoffel_porre_suppe_opskr <- tibble::tribble(
   "kartofler", 125, "gram", "frugt_gr\u00F8nt", "",
   "porre", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "gr\u00F8ntsagsbouillon (tilsmagning)", NA, "", "konserves", "krydderi",
-  "piskefl\u00F8de", 0.25, "liter", "mejeri", "m\u00E6lk",
+  "piskefl\u00F8de", 0.25, "dl", "mejeri", "m\u00E6lk",
   "bacon i skiver", 37.5, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
   "br\u00F8d (tilbeh\u00F8r)", NA, "", "br\u00F8d", ""
 )
 
 
-# alle opskrifter ----
+# alle retter ----
 opskrifter <- list(morbrad_opskr = morbrad_opskr,
                    carbonara_opskr = carbonara_opskr,
                    fiskefilet_opskr = fiskefilet_opskr,
@@ -275,3 +276,23 @@ opskrifter <- list(morbrad_opskr = morbrad_opskr,
                    kartoffel_porre_suppe_opskr = kartoffel_porre_suppe_opskr
                    )
 
+
+
+# salater ----
+salater <- tibble::tribble(
+  ~retter, ~key, ~type,
+  "V\u00E6lg salat", "", "",
+  "Revet guler\u00F8dder", "revet_gulerodder_opskr", "vegetar",
+  "Broccoli salat", "", ""
+)
+
+revet_gulerodder_opskr <- tibble::tribble(
+  ~"Revet guler\u00F8dder", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
+  "guler\u00F8dder", 75, "gram", "frugt_gr\u00F8nt", "",
+  "rosiner", 10, "gram", "konserves", "",
+  "citronsaft (tilbeh\u00F8r)", NA, "", "konserves", ""
+)
+
+salater_opskrifter <- list(
+  revet_gulerodder_opskr = revet_gulerodder_opskr
+)
