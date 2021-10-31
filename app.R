@@ -171,13 +171,14 @@ server <- function(input, output) {
         
         if (length(indkob) > 0) {
             
-            col_names <- c("Indkobsliste", "maengde", "enhed")
+            col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
             indkob <- lapply(indkob, setNames, col_names)
             indkob <- bind_rows(indkob)
             
             indkob <- indkob %>% 
-                group_by(Indkobsliste, enhed) %>% 
-                summarise(maengde = sum(maengde), .groups = "drop")
+                group_by(Indkobsliste, enhed, kat_1, kat_2) %>% 
+                summarise(maengde = sum(maengde), .groups = "drop") %>% 
+                arrange(kat_1, kat_2)
             
             indkob$Indkobsliste <- paste(indkob$maengde, indkob$enhed, indkob$Indkobsliste)
             indkob$Indkobsliste <- gsub("NA", "", indkob$Indkobsliste) %>% trimws()
