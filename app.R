@@ -3,8 +3,6 @@ library(shinydashboard)
 library(DT)
 library(wordcloud2)
 library(dplyr)
-library(ggwordcloud)
-library(rsconnect)
 
 # henter retter og opskrifter
 source("./data.R")
@@ -164,15 +162,18 @@ server <- function(input, output) {
     # Indkøbsliste ----
     indkobsseddel <- reactive({
         
-        indkob <- list(mandag(), tirsdag(), onsdag(), torsdag(), 
-                       fredag(), lordag(), sondag())
+        indkob_all <- list(mandag(), tirsdag(), onsdag(), torsdag(), 
+                           fredag(), lordag(), sondag())
         
-        indkob <- indkob[lengths(indkob) != 0]
+        names(indkob_all) <- c("Mandag", "Tirsdag", "Onsdag", "Torsdag",
+                               "Fredag", "L\u00F8rdag", "S\u00F8ndag")
         
-        if (length(indkob) > 0) {
-            
+        indkob_all <- indkob_all[lengths(indkob_all) != 0]
+        
+        if (length(indkob_all) > 0) {
+          
             col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
-            indkob <- lapply(indkob, setNames, col_names)
+            indkob <- lapply(indkob_all, setNames, col_names)
             indkob <- bind_rows(indkob)
             
             indkob <- indkob %>% 
@@ -183,6 +184,15 @@ server <- function(input, output) {
             indkob$Indkobsliste <- paste(indkob$maengde, indkob$enhed, indkob$Indkobsliste)
             indkob$Indkobsliste <- gsub("NA", "", indkob$Indkobsliste) %>% trimws()
             indkob <- indkob[, "Indkobsliste"]
+            
+            ###
+            opskr_navne <- lapply(indkob_all, function(x) names(x)[1]) %>% unlist()
+            uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
+            uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
+            
+            indkob <- bind_rows(indkob, uge_overblik_df)
+            ###
+            
             names(indkob) <- "Indk\u00F8bsliste"
             
             
@@ -193,16 +203,20 @@ server <- function(input, output) {
         indkob
     })
     
-    output$indkobsseddel <- DT::renderDataTable({
+    output$indkobsseddel <- DT::renderDataTable(server = FALSE, {
 
+        page_len <- which(indkobsseddel()[["Indk\u00F8bsliste"]] == "")[1] - 1
+        
         DT::datatable(indkobsseddel(), rownames = NULL, extensions = 'Buttons',
                       options = list(dom = "B", ordering = FALSE,
-                                     pageLength = nrow(indkobsseddel()),
-                                     buttons = list('copy',
+                                     pageLength = page_len,
+                                     buttons = list(list(extend = 'copy', 
+                                                         title = NULL),
                                                     list(
                                                       extend = "csv",
                                                       charset = "utf-8",
-                                                      bom = TRUE
+                                                      bom = TRUE,
+                                                      title = NULL
                                                     ))
                                      ),
                       editable = TRUE

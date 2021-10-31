@@ -69,7 +69,7 @@ pizza_opskr <- tibble::tribble(
   "balsamico", 0.05, "dl", "konserves", "",
   "tomatpure", 0.5, "d\u00E5se(r)", "konserves", "tomat",
   "hakkede tomater", 0.5, "d\u00E5se(r)", "konserves", "tomat",
-  "Engelsk sovs (tilsmagning)", NA, "", "konserves", "",
+  "engelsk sovs (tilsmagning)", NA, "", "konserves", "",
   "frisk mozzarella", 1, "stk", "mejeri", "ost"
 )
 
