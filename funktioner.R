@@ -1,42 +1,47 @@
-opskrift <- function(opskrifter, retter, dag, antal) {
+
+opskrift <- function(opskrifter, retter, salater, salater_opskrifter, 
+                     dag_ret, dag_salat, antal) {
   
-  if (dag != "V\u00E6lg ret") {
+  if (dag_ret != "V\u00E6lg ret") {
     
-    opskrift <- opskrifter[[retter$key[retter$retter == dag]]]
-    
-    # tilpasser enheder
-    opskrift$maengde <- opskrift$maengde * antal
-    
-    opskrift
+    ret <- opskrifter[[retter$key[retter$retter == dag_ret]]]
+    ret$maengde <- ret$maengde * antal
     
   } else {
-    NULL
+    ret <- NULL
   }
+  
+  if (dag_salat != "V\u00E6lg salat") {
+    
+    salat <- salater_opskrifter[[salater$key[salater$retter == dag_salat]]]
+    salat$maengde <- salat$maengde * antal
+
+  } else {
+    salat <- NULL
+  }
+  
+  if (!is.null(ret) & !is.null(salat)) {
+    name_ret <- paste(names(ret)[1], "m.", names(salat)[1])
+    names(ret)[1] <- name_ret
+    names(salat)[1] <- name_ret
+  }
+  
+  rbind(ret, salat)
+  
 }
 
-display_opskrift <- function(ret_opskr, ret, salat_opskr, salat) {
+display_opskrift <- function(ret_opskr) {
   
-  if (ret != "V\u00E6lg ret") {
-    ret_opskr[[ret]] <- paste(ret_opskr$maengde, ret_opskr$enhed, ret_opskr[[ret]])
-    ret_opskr[[ret]] <- gsub("NA", "", ret_opskr[[ret]]) %>% trimws()
-    ret_opskr <- ret_opskr[, c(ret)]
+  if (!is.null(ret_opskr)) {
+    ret_opskr[[1]] <- paste(ret_opskr$maengde, ret_opskr$enhed, ret_opskr[[1]])
+    ret_opskr[[1]] <- gsub("NA", "", ret_opskr[[1]]) %>% trimws()
+    ret_opskr <- ret_opskr[, 1]
   } else {
     ret_opskr <- NULL
   }
   
-  if (salat != "V\u00E6lg salat") {
-    salat_opskr[[salat]] <- paste(salat_opskr$maengde, salat_opskr$enhed, salat_opskr[[salat]])
-    salat_opskr[[salat]] <- gsub("NA", "", salat_opskr[[salat]]) %>% trimws()
-    salat_opskr <- salat_opskr[, c(salat)]
-    names(salat_opskr) <- ret
-  } else {
-    salat_opskr <- NULL
-  }
-  
-  output <- bind_rows(ret_opskr, salat_opskr)
-  
-  DT::datatable(output, rownames = NULL,
+  DT::datatable(ret_opskr, rownames = NULL,
                 options = list(dom = 't', 
                                ordering = FALSE,
-                               pageLength = nrow(output)))
+                               pageLength = nrow(ret_opskr)))
 }

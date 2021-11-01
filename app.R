@@ -129,52 +129,65 @@ server <- function(input, output) {
     })
 
     # Opskrifter ----
-    ret_man <- reactive(opskrift(opskrifter, retter, input$man_ret, input$man_pers))
-    ret_tirs <- reactive(opskrift(opskrifter, retter, input$tirs_ret, input$tirs_pers))
-    ret_ons <- reactive(opskrift(opskrifter, retter, input$ons_ret, input$ons_pers))
-    ret_tors <- reactive(opskrift(opskrifter, retter, input$tors_ret, input$tors_pers))
-    ret_fre <- reactive(opskrift(opskrifter, retter, input$fre_ret, input$fre_pers))
-    ret_lor <- reactive(opskrift(opskrifter, retter, input$lor_ret, input$lor_pers))
-    ret_son <- reactive(opskrift(opskrifter, retter, input$son_ret, input$son_pers))
-
-    salat_man <- reactive(opskrift(salater_opskrifter, salater, input$man_salat, input$man_pers))
-    salat_tirs <- reactive(opskrift(salater_opskrifter, salater, input$tirs_salat, input$tirs_pers))
-    salat_ons <- reactive(opskrift(salater_opskrifter, salater, input$ons_salat, input$ons_pers))
-    salat_tors <- reactive(opskrift(salater_opskrifter, salater, input$tors_salat, input$tors_pers))
-    salat_fre <- reactive(opskrift(salater_opskrifter, salater, input$fre_salat, input$fre_pers))
-    salat_lor <- reactive(opskrift(salater_opskrifter, salater, input$lor_salat, input$lor_pers))
-    salat_son <- reactive(opskrift(salater_opskrifter, salater, input$son_salat, input$son_pers))
+    ret_man <- reactive(
+      opskrift(opskrifter, retter, salater, salater_opskrifter,
+               input$man_ret, input$man_salat, input$man_pers)
+      )
     
-    output$dt_mandag <- renderDataTable(
-      display_opskrift(ret_man(), input$man_ret, salat_man(), input$man_salat))
-    output$dt_tirsdag <- renderDataTable(
-      display_opskrift(ret_tirs(), input$tirs_ret, salat_tirs(), input$tirs_salat))
-    output$dt_onsdag <- renderDataTable(
-      display_opskrift(ret_ons(), input$ons_ret, salat_ons(), input$ons_salat))
-    output$dt_torsdag <- renderDataTable(
-      display_opskrift(ret_tors(), input$tors_ret, salat_tors(), input$tors_salat))
-    output$dt_fredag <- renderDataTable(
-      display_opskrift(ret_fre(), input$fre_ret, salat_fre(), input$fre_salat))
-    output$dt_lordag <- renderDataTable(
-      display_opskrift(ret_lor(), input$lor_ret, salat_lor(), input$lor_salat))
-    output$dt_sondag<- renderDataTable(
-      display_opskrift(ret_son(), input$son_ret, salat_son(), input$son_salat))
+    ret_tirs <- reactive(
+      opskrift(opskrifter, retter, salater, salater_opskrifter,
+               input$tirs_ret, input$tirs_salat, input$tirs_pers)
+      )
+    
+    ret_ons <- reactive(
+      opskrift(opskrifter, retter, salater, salater_opskrifter,
+               input$ons_ret, input$ons_salat, input$ons_pers)
+      )
+    
+    ret_tors <- reactive(
+      opskrift(opskrifter, retter, salater, salater_opskrifter,
+               input$tors_ret, input$tors_salat, input$tors_pers)
+      )
+    
+    ret_fre <- reactive(
+      opskrift(opskrifter, retter, salater, salater_opskrifter,
+               input$fre_ret, input$fre_salat, input$fre_pers)
+      )
+    
+    ret_lor <- reactive(
+      opskrift(opskrifter, retter, salater, salater_opskrifter,
+               input$lor_ret, input$lor_salat, input$lor_pers)
+      )
+    
+    ret_son <- reactive(
+      opskrift(opskrifter, retter, salater, salater_opskrifter,
+               input$son_ret, input$son_salat, input$son_pers)
+      )
+
+    output$dt_mandag <- renderDataTable(display_opskrift(ret_man()))
+    output$dt_tirsdag <- renderDataTable(display_opskrift(ret_tirs()))
+    output$dt_onsdag <- renderDataTable(display_opskrift(ret_ons()))
+    output$dt_torsdag <- renderDataTable(display_opskrift(ret_tors()))
+    output$dt_fredag <- renderDataTable(display_opskrift(ret_fre()))
+    output$dt_lordag <- renderDataTable(display_opskrift(ret_lor()))
+    output$dt_sondag<- renderDataTable(display_opskrift(ret_son()))
     
     # Indkøbsliste ----
     indkobsseddel <- reactive({
         
-        indkob_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
-                           ret_fre(), ret_lor(), ret_son())
+        ret_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
+                        ret_fre(), ret_lor(), ret_son())
         
-        names(indkob_all) <- c("Mandag", "Tirsdag", "Onsdag", "Torsdag",
-                               "Fredag", "L\u00F8rdag", "S\u00F8ndag")
+        uge_navne <- c("Mandag", "Tirsdag", "Onsdag", "Torsdag",
+                       "Fredag", "L\u00F8rdag", "S\u00F8ndag")
         
-        indkob_all <- indkob_all[lengths(indkob_all) != 0]
-        
-        if (length(indkob_all) > 0) {
+        names(ret_all) <- uge_navne
+        ret_all <- ret_all[lengths(ret_all) != 0]
+
+        if (length(ret_all) > 0) {
           
             col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
-            indkob <- lapply(indkob_all, setNames, col_names)
+            indkob <- lapply(ret_all, setNames, col_names)
             indkob <- bind_rows(indkob)
             
             indkob <- indkob %>% 
@@ -187,7 +200,7 @@ server <- function(input, output) {
             indkob <- indkob[, "Indkobsliste"]
             
             # sætter ugedage
-            opskr_navne <- lapply(indkob_all, function(x) names(x)[1]) %>% unlist()
+            opskr_navne <- lapply(ret_all, function(x) names(x)[1]) %>% unlist()
             uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
             uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
             
