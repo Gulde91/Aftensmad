@@ -3,6 +3,7 @@ library(shinydashboard)
 library(DT)
 library(wordcloud2)
 library(dplyr)
+library(purrr)
 
 # henter retter og opskrifter
 source("./data.R")
@@ -204,7 +205,23 @@ server <- function(input, output) {
             uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
             uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
             
-            indkob <- bind_rows(indkob, uge_overblik_df)
+            # sætter opskrifter
+            ingr_pr_ret <- map(ret_all, ~mutate(.x, ret = names(.x)[1])) %>% 
+                           map(~rename(.x, "ingredienser" = names(.x)[1])) %>% 
+                           bind_rows() %>%
+                           group_by(ingredienser, enhed, kat_1, kat_2, ret) %>% 
+                           summarise(maengde = sum(maengde), .groups = "drop")
+            
+            ingr_pr_ret <- split(ingr_pr_ret, ingr_pr_ret$ret) %>% 
+                           map(~mutate(.x, Indkobsliste = paste(maengde, enhed, ingredienser) %>% 
+                                                 gsub("NA", "", .) %>% trimws())) %>% 
+                           map(~bind_rows(
+                             data.frame(Indkobsliste = c("", paste0(.x$ret[1], ":"))),
+                             select(.x, Indkobsliste)
+                           )) %>% 
+                           bind_rows()
+
+            indkob <- bind_rows(indkob, uge_overblik_df, ingr_pr_ret)
 
             names(indkob) <- "Indk\u00F8bsliste"
             
