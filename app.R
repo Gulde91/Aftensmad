@@ -101,7 +101,18 @@ ui <- fluidPage(
                         )
                     ),
                     tabPanel("Indk\u00F8bsliste",
-                             box(width = 4,DT::dataTableOutput("indkobsseddel"))
+                             br(),
+                             box(width = 4,DT::dataTableOutput("indkobsseddel")),
+                             box(
+                             div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                                 selectInput("basis_varer", "Tilf\u00F8j vare", varer)),
+                             div(style = "display: inline-block;vertical-align:top; width: 70px;",
+                                 numericInput("antal_basis_varer", "Antal", value = 1)),
+                             div(style = "display: inline-block;vertical-align:top; 
+                                 margin-top: 25px; width: 50px;",
+                                 actionButton("add_varer", "Tilf\u00F8j", class = "btn-success")),
+                             )
+                             
                              )
                  )
              )

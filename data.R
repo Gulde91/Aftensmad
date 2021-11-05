@@ -296,3 +296,6 @@ revet_gulerodder_opskr <- tibble::tribble(
 salater_opskrifter <- list(
   revet_gulerodder_opskr = revet_gulerodder_opskr
 )
+
+# Basis varer ----
+varer <- c("m\u00E6lk", "sm\u00F8r")
