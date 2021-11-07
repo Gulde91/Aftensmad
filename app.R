@@ -105,7 +105,7 @@ ui <- fluidPage(
                              box(width = 4,DT::dataTableOutput("indkobsseddel")),
                              box(
                              div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                                 selectInput("basis_varer", "Tilf\u00F8j vare", varer)),
+                                 selectInput("basis_varer", "Tilf\u00F8j vare", varer$Indkobsliste)),
                              div(style = "display: inline-block;vertical-align:top; width: 70px;",
                                  numericInput("antal_basis_varer", "Antal", value = 1)),
                              div(style = "display: inline-block;vertical-align:top; 
@@ -184,7 +184,24 @@ server <- function(input, output) {
     output$dt_lordag <- renderDataTable(display_opskrift(ret_lor()))
     output$dt_sondag<- renderDataTable(display_opskrift(ret_son()))
     
+    
     # Indkøbsliste ----
+    basis_varer <- data.frame()
+    
+    observeEvent(input$add_varer, {
+      
+      if (input$basis_varer != "V\u00E6lg vare") {
+        varer_tmp <- varer[varer$Indkobsliste == input$basis_varer, ]
+        varer_tmp$maengde <- varer_tmp$maengde * input$antal_basis_varer
+        
+        basis_varer <<- rbind(basis_varer, varer_tmp)
+      }
+      
+      print(basis_varer)
+      
+
+    })
+
     indkobsseddel <- reactive({
         
         ret_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
