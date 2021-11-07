@@ -20,7 +20,8 @@ retter <- tibble::tribble(
   "Madpangekager p\u00E5 panden", "madpangekager_paa_panden_opskr", "kylling",
   "Chili con carne", "chili_con_carne_opskr", "okse",
   "Br\u00E6ndende k\u00E6rlighed", "braendende_kaerlighed_opskr", "gris",
-  "Kartoffel-porre suppe", "kartoffel_porre_suppe_opskr", "gris")
+  "Kartoffel-porre suppe", "kartoffel_porre_suppe_opskr", "gris",
+  "Kylling kiev", "kylling_kiev_opskr", "kylling")
 
 retter$count <- 1
 
@@ -254,6 +255,21 @@ kartoffel_porre_suppe_opskr <- tibble::tribble(
   "br\u00F8d (tilbeh\u00F8r)", NA, "", "br\u00F8d", ""
 )
 
+kylling_kiev_opskr <- tibble::tribble(
+~"Kylling kiev", ~"maengde",  ~"enhed", ~"kat_1",  ~"kat_2",
+"kyllingebrystfilet", 1, "stk", "k\u00F8d", "",
+"rodfrugter", 150, "gram", "frugt_og_gr\u00F8nt", "",
+"spinat", 30, "gram",  "frugt_og_gr\u00F8nt", "",
+"citron",  0.5, "stk", "frugt_og_gr\u00F8nt", "",
+"persille", 20, "gram", "frugt_og_gr\u00F8nt", "",
+"r\u00F8dl\u00F8g", 0.5, "stk", "frugt_og_gr\u00F8nt", "",
+"hvidl\u00F8gsfed", 0.5, "stk",  "frugt_og_gr\u00F8nt", "",
+"panko", 15, "gram", "konserves", "",
+"aioli", 25, "gram", "konserves", "dressing",
+"\u00E6gg", 0.5, "stk", "mejeri", "",
+"sm\u00F8r", 30, "gram", "mejeri", ""
+)
+
 
 # alle retter ----
 opskrifter <- list(morbrad_opskr = morbrad_opskr,
@@ -273,7 +289,8 @@ opskrifter <- list(morbrad_opskr = morbrad_opskr,
                    madpangekager_paa_panden_opskr = madpangekager_paa_panden_opskr,
                    chili_con_carne_opskr = chili_con_carne_opskr,
                    braendende_kaerlighed_opskr = braendende_kaerlighed_opskr,
-                   kartoffel_porre_suppe_opskr = kartoffel_porre_suppe_opskr
+                   kartoffel_porre_suppe_opskr = kartoffel_porre_suppe_opskr,
+                   kylling_kiev_opskr = kylling_kiev_opskr
                    )
 
 
