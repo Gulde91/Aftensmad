@@ -105,7 +105,7 @@ ui <- fluidPage(
                              box(width = 4,DT::dataTableOutput("indkobsseddel")),
                              box(
                              div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                                 selectInput("basis_varer", "Tilf\u00F8j vare", varer)),
+                                 selectInput("basis_varer", "Tilf\u00F8j varer", varer$Indkobsliste)),
                              div(style = "display: inline-block;vertical-align:top; width: 70px;",
                                  numericInput("antal_basis_varer", "Antal", value = 1)),
                              div(style = "display: inline-block;vertical-align:top; 
@@ -185,83 +185,90 @@ server <- function(input, output) {
     output$dt_sondag<- renderDataTable(display_opskrift(ret_son()))
     
     # Indkøbsliste ----
+    rv <- reactiveValues(df = NULL)
+
+    ret_all <- reactive({
+      
+      ret_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
+                      ret_fre(), ret_lor(), ret_son())
+      
+      uge_navne <- c("Mandag", "Tirsdag", "Onsdag", "Torsdag",
+                     "Fredag", "L\u00F8rdag", "S\u00F8ndag")
+      
+      names(ret_all) <- uge_navne
+      ret_all <- ret_all[lengths(ret_all) != 0]
+      
+      ret_all
+    })
+
+    observe({ 
+
+      if (length(ret_all()) > 0) {
+        
+        col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
+        indkob <- lapply(ret_all(), setNames, col_names)
+        indkob <- bind_rows(indkob)
+        rv$df <- indkob
+      }
+    })
     
     observeEvent(input$add_varer, {
 
-      print(input$basis_varer)
-      print(input$antal_basis_varer)
-      
-      # if (input$basis_varer != "V\u00E6lg vare") {
-      #   varer_tmp <- varer[varer$Indkobsliste == input$basis_varer, ]
-      #   varer_tmp$maengde <- varer_tmp$maengde * input$antal_basis_varer
-      #   print(varer_tmp)
-      # 
-      #   #indkobsseddel() <- bind_rows(indkobsseddel(), varer_tmp)
-      # }
+      if (input$basis_varer != "V\u00E6lg vare") {
+        varer_tmp <- varer[varer$Indkobsliste == input$basis_varer, ]
+        varer_tmp$maengde <- varer_tmp$maengde * input$antal_basis_varer
+
+        rv$df <- bind_rows(varer_tmp, rv$df)
+      }
 
     })
 
     indkobsseddel <- reactive({
         
-        ret_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
-                        ret_fre(), ret_lor(), ret_son())
+      if (length(rv$df) > 0) {
         
-        uge_navne <- c("Mandag", "Tirsdag", "Onsdag", "Torsdag",
-                       "Fredag", "L\u00F8rdag", "S\u00F8ndag")
+        indkob <- rv$df %>% 
+          group_by(Indkobsliste, enhed, kat_1, kat_2) %>% 
+          summarise(maengde = sum(maengde), .groups = "drop") %>% 
+          arrange(kat_1, kat_2)
         
-        names(ret_all) <- uge_navne
-        ret_all <- ret_all[lengths(ret_all) != 0]
-
-        if (length(ret_all) > 0) {
-          
-            col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
-            indkob <- lapply(ret_all, setNames, col_names)
-            indkob <- bind_rows(indkob)
-            
-            indkob <- indkob %>% 
-                group_by(Indkobsliste, enhed, kat_1, kat_2) %>% 
-                summarise(maengde = sum(maengde), .groups = "drop") %>% 
-                arrange(kat_1, kat_2)
-            
-            indkob$Indkobsliste <- paste(indkob$maengde, indkob$enhed, indkob$Indkobsliste)
-            indkob$Indkobsliste <- gsub("NA", "", indkob$Indkobsliste) %>% trimws()
-            indkob <- indkob[, "Indkobsliste"]
-            
-            # sætter ugedage
-            opskr_navne <- lapply(ret_all, function(x) names(x)[1]) %>% unlist()
-            uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
-            uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
-            
-            # sætter opskrifter
-            ingr_pr_ret <- map(ret_all, ~mutate(.x, ret = names(.x)[1])) %>% 
-                           map(~rename(.x, "ingredienser" = names(.x)[1])) %>% 
-                           bind_rows() %>%
-                           group_by(ingredienser, enhed, kat_1, kat_2, ret) %>% 
-                           summarise(maengde = sum(maengde), .groups = "drop")
-            
-            ingr_pr_ret <- split(ingr_pr_ret, ingr_pr_ret$ret) %>% 
-                           map(~mutate(.x, Indkobsliste = paste(maengde, enhed, ingredienser) %>% 
-                                                 gsub("NA", "", .) %>% trimws())) %>% 
-                           map(~bind_rows(
-                             data.frame(Indkobsliste = c("", paste0(.x$ret[1], ":"))),
-                             select(.x, Indkobsliste)
-                           )) %>% 
-                           bind_rows()
-
-            indkob <- bind_rows(indkob, uge_overblik_df, ingr_pr_ret)
-
-            names(indkob) <- "Indk\u00F8bsliste"
-            
-            
-        } else {
-            indkob <- NULL
-        }
+        indkob$Indkobsliste <- paste(indkob$maengde, indkob$enhed, indkob$Indkobsliste)
+        indkob$Indkobsliste <- gsub("NA", "", indkob$Indkobsliste) %>% trimws()
+        indkob <- indkob[, "Indkobsliste"]
         
+        # sætter ugedage
+        opskr_navne <- lapply(ret_all(), function(x) names(x)[1]) %>% unlist()
+        uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
+        uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
+        
+        # sætter opskrifter
+        ingr_pr_ret <- map(ret_all(), ~mutate(.x, ret = names(.x)[1])) %>%
+                       map(~rename(.x, "ingredienser" = names(.x)[1])) %>%
+                       bind_rows() %>%
+                       group_by(ingredienser, enhed, kat_1, kat_2, ret) %>%
+                       summarise(maengde = sum(maengde), .groups = "drop")
+
+        ingr_pr_ret <- split(ingr_pr_ret, ingr_pr_ret$ret) %>%
+                       map(~mutate(.x, Indkobsliste = paste(maengde, enhed, ingredienser) %>%
+                                             gsub("NA", "", .) %>% trimws())) %>%
+                       map(~bind_rows(
+                         data.frame(Indkobsliste = c("", paste0(.x$ret[1], ":"))),
+                         select(.x, Indkobsliste)
+                       )) %>%
+                       bind_rows()
+
+        indkob <- bind_rows(indkob, uge_overblik_df, ingr_pr_ret)
+        
+        names(indkob) <- "Indk\u00F8bsliste"
+        
+      } else {
+        indkob <- NULL
+      }
         indkob
     })
     
     output$indkobsseddel <- DT::renderDataTable(server = FALSE, {
-
+        
         page_len <- which(indkobsseddel()[["Indk\u00F8bsliste"]] == "")[1] - 1
         
         DT::datatable(indkobsseddel(), rownames = NULL, extensions = 'Buttons',

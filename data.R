@@ -315,4 +315,9 @@ salater_opskrifter <- list(
 )
 
 # Basis varer ----
-varer <- c("m\u00E6lk", "sm\u00F8r")
+varer <- tibble::tribble(
+  ~"Indkobsliste", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
+  "V\u00E6lg vare", NA, "", "", "",
+  "m\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
+  "sm\u00F8r", 1, "stk", "mejeri", ""
+)
