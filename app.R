@@ -123,7 +123,7 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram ----
 server <- function(input, output) {
 
-    # word cloud plot
+    # word cloud plot ----
     output$wordcloud_retter <- renderWordcloud2({
 
         retter_tmp <- retter
@@ -185,6 +185,22 @@ server <- function(input, output) {
     output$dt_sondag<- renderDataTable(display_opskrift(ret_son()))
     
     # Indkøbsliste ----
+    
+    observeEvent(input$add_varer, {
+
+      print(input$basis_varer)
+      print(input$antal_basis_varer)
+      
+      # if (input$basis_varer != "V\u00E6lg vare") {
+      #   varer_tmp <- varer[varer$Indkobsliste == input$basis_varer, ]
+      #   varer_tmp$maengde <- varer_tmp$maengde * input$antal_basis_varer
+      #   print(varer_tmp)
+      # 
+      #   #indkobsseddel() <- bind_rows(indkobsseddel(), varer_tmp)
+      # }
+
+    })
+
     indkobsseddel <- reactive({
         
         ret_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
@@ -263,13 +279,6 @@ server <- function(input, output) {
                       editable = TRUE
                       )
         })
-    
-    proxy <- DT::dataTableProxy("indkobsseddel")
-    shiny::observe({
-      DT::replaceData(proxy, indkobsseddel(), resetPaging = FALSE, rownames = FALSE)
-    })
-    
-    
 }
 
 # Run the application 
