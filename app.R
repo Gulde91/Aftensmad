@@ -264,6 +264,12 @@ server <- function(input, output) {
                       )
         })
     
+    proxy <- DT::dataTableProxy("indkobsseddel")
+    shiny::observe({
+      DT::replaceData(proxy, indkobsseddel(), resetPaging = FALSE, rownames = FALSE)
+    })
+    
+    
 }
 
 # Run the application 
