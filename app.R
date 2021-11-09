@@ -227,7 +227,13 @@ server <- function(input, output) {
         
       if (length(rv$df) > 0) {
         
-        indkob <- rv$df %>% 
+        indkob <- rv$df
+        
+        rund_op <- c("stk", "d\u00E5se(r)", "pakke(r)")
+        indkob$maengde <- ifelse(indkob$enhed %in% rund_op, 
+                                 ceiling(indkob$maengde), indkob$maengde)
+        
+        indkob <- indkob %>% 
           group_by(Indkobsliste, enhed, kat_1, kat_2) %>% 
           summarise(maengde = sum(maengde), .groups = "drop") %>% 
           arrange(kat_1, kat_2)
