@@ -226,8 +226,7 @@ chili_con_carne_opskr <- tibble::tribble(
   "olivenolie (tilsmagning)", NA, "", "konserves", "",
   "nachos", 31.25, "gram", "chips", "",
   "ris", 0.75, "dl", "konserves", "",
-  "creme fraiche", 0.5, "dl", "mejeri", "m\u00E6lk",
-  "revet cheddar", 37.5, "gram", "mejeri", "ost"
+  "creme fraiche", 0.5, "dl", "mejeri", "m\u00E6lk"
 )
 
 # brændende kærlighed ----
