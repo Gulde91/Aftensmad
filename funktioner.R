@@ -45,3 +45,19 @@ display_opskrift <- function(ret_opskr) {
                                ordering = FALSE,
                                pageLength = nrow(ret_opskr)))
 }
+
+parseDeleteEvent <- function(idstr) {
+  res <- as.integer(sub(".*_([0-9]+)", "\\1", idstr))
+  if (! is.na(res)) res
+}
+
+f <- function(i) {
+  as.character(
+    actionButton(
+      # The id prefix with index
+      paste('delete_button', i, sep="_"),
+      label = "Slet",
+      icon = icon("calendar"), #'trash'),
+      onclick = 'Shiny.setInputValue(\"deletePressed\", this.id, {priority: "event"})'))
+}
+

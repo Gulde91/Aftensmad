@@ -9,55 +9,6 @@ library(purrr)
 source("./data.R")
 source("./funktioner.R")
 
-deleteButtonColumn <- function(df, id, ...) {
-  # function to create one action button as string
-  f <- function(i) {
-    as.character(
-      actionButton(
-        # The id prefix with index
-        paste(id, i, sep="_"),
-        label = NULL,
-        icon = icon('trash'),
-        onclick = 'Shiny.setInputValue(\"deletePressed\", this.id, {priority: "event"})'))
-  }
-  
-  deleteCol <- unlist(lapply(seq_len(nrow(df)), f))
-  
-  # Return a data table
-  DT::datatable(cbind(df, Delete = deleteCol), 
-                rownames = NULL, extensions = 'Buttons', editable = TRUE,
-                # Need to disable escaping for html as string to work
-                escape = FALSE,
-                options = list(
-                  dom = "B", ordering = FALSE, pageLength = 25, #page_len,
-                  buttons = list(list(extend = 'copy', 
-                                      title = NULL),
-                                 list(extend = "csv",
-                                      charset = "utf-8",
-                                      bom = TRUE,
-                                      title = NULL
-                                      )),
-                  # Disable sorting for the delete column
-                  columnDefs = list(
-                    list(targets = 1, sortable = FALSE))
-                ))
-}
-
-parseDeleteEvent <- function(idstr) {
-  res <- as.integer(sub(".*_([0-9]+)", "\\1", idstr))
-  if (! is.na(res)) res
-}
-
-f <- function(i) {
-  as.character(
-    actionButton(
-      # The id prefix with index
-      paste('delete_button', i, sep="_"),
-      label = NULL,
-      icon = icon('trash'),
-      onclick = 'Shiny.setInputValue(\"deletePressed\", this.id, {priority: "event"})'))
-}
-
 
 # Define UI for application that draws a histogram ----
 ui <- fluidPage(
@@ -344,9 +295,9 @@ server <- function(input, output) {
       
       # Return a data table
       DT::datatable(cbind(indkobsseddel$data, delete = deleteCol()), 
-                    rownames = NULL, extensions = 'Buttons', editable = TRUE,
+                    rownames = NULL, colnames = NULL, extensions = 'Buttons',
                     # Need to disable escaping for html as string to work
-                    escape = FALSE,
+                    escape = FALSE, editable = TRUE,
                     options = list(
                       dom = "B", ordering = FALSE, pageLength = page_len,
                       buttons = list(list(extend = 'copy', 
