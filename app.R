@@ -187,7 +187,9 @@ server <- function(input, output) {
     
     # Indkøbsliste ----
     rv <- reactiveValues(df = NULL)
-
+    indkobsseddel <- reactiveValues(data = NULL)
+    
+    # samler alle ugens retter i en liste
     ret_all <- reactive({
       
       ret_all <- list(ret_man(), ret_tirs(), ret_ons(), ret_tors(), 
@@ -202,6 +204,7 @@ server <- function(input, output) {
       ret_all
     })
 
+    # binder alle ugens retter til dataframe
     observe({ 
 
       if (length(ret_all()) > 0) {
@@ -213,6 +216,7 @@ server <- function(input, output) {
       }
     })
     
+    # mulighed for at tilføje varer
     observeEvent(input$add_varer, {
 
       if (input$basis_varer != "V\u00E6lg vare") {
@@ -224,8 +228,7 @@ server <- function(input, output) {
 
     })
 
-    indkobsseddel <- reactiveValues(data = NULL)
-    
+    # binder hele indkøbslisten
     observe({
         
       if (length(rv$df) > 0) {
@@ -275,21 +278,21 @@ server <- function(input, output) {
        }
     })
     
+    # mulighed fir at slette række
     observeEvent(input$deletePressed, {
       rowNum <- parseDeleteEvent(input$deletePressed)
-      
-      # Delete the row from the data frame
       indkobsseddel$data <- indkobsseddel$data[-rowNum,]
     })
     
+    # konstruerer "slet-knap" kolonne
     deleteCol <- reactive({
-      
-      if (!is.null(indkobsseddel$data)) 
-      unlist(lapply(seq_len(nrow(indkobsseddel$data)), f))
-      
-      })
+      if (!is.null(indkobsseddel$data)) {
+        unlist(lapply(seq_len(nrow(indkobsseddel$data)), f))  
+      }
+    })
 
-    output$indkobsseddel <- DT::renderDataTable({
+    # final data table output
+    output$indkobsseddel <- DT::renderDataTable(server = FALSE, {
 
       page_len <- which(indkobsseddel$data[["Indk\u00F8bsliste"]] == "")[1] - 1
       
@@ -297,19 +300,24 @@ server <- function(input, output) {
       DT::datatable(cbind(indkobsseddel$data, delete = deleteCol()), 
                     rownames = NULL, colnames = NULL, extensions = 'Buttons',
                     # Need to disable escaping for html as string to work
-                    escape = FALSE, editable = TRUE,
+                    escape = FALSE, 
+                    editable = TRUE,
                     options = list(
                       dom = "B", ordering = FALSE, pageLength = page_len,
                       buttons = list(list(extend = 'copy', 
-                                          title = NULL),
+                                          title = NULL,
+                                          exportOptions = list(columns = 0)
+                                          ),
                                      list(extend = "csv",
                                           charset = "utf-8",
                                           bom = TRUE,
-                                          title = NULL
-                                     )),
+                                          title = NULL,
+                                          exportOptions = list(columns = 0)
+                                          )
+                                     ),
                       # Disable sorting for the delete column
-                      columnDefs = list(
-                        list(targets = 1, sortable = FALSE))
+                       columnDefs = list(
+                         list(targets = 1, sortable = FALSE))
                     ))
       
       
