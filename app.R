@@ -235,7 +235,7 @@ server <- function(input, output) {
         
         indkob <- rv$df
         
-        rund_op <- c("stk", "d\u00E5se(r)", "pakke(r)")
+        rund_op <- c("stk", "d\u00E5se(r)", "pakke(r)", "rulle(r)")
         indkob$maengde <- ifelse(indkob$enhed %in% rund_op, 
                                  ceiling(indkob$maengde), indkob$maengde)
         

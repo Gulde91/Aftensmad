@@ -118,7 +118,7 @@ dahl_opskr <- tibble::tribble(
 # madpandekager ----
 madpandekager_opskr <- tibble::tribble(
   ~"Madpandekager", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "kylling", 0.1, "kg", "k\u00F8d", "",
+  "kylling", 100, "gram", "k\u00F8d", "",
   "crispy chicken tex mex", 0.5, "stk",  "konserves", "mexico",
   "madpandekager", 1, "stk",  "konserves", "mexico",
   "tacoskal", 1, "stk",  "konserves", "mexico",
@@ -139,7 +139,7 @@ ravioli_opskr <- tibble::tribble(
 # bacon kyllinge tærte ----
 bacon_kylling_taerte_opskr <- tibble::tribble(
   ~"Bacon kyllinge t\u00E6rte", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "f\u00E6rdig t\u00E6rtedej", 0.25, "rulle", "k\u00F8l", "",
+  "f\u00E6rdig t\u00E6rtedej", 0.25, "rulle(r)", "k\u00F8l", "",
   "bacon i tern", 0.25, "pakke(r)", "k\u00F8d", "p\u00E5l\u00E6g",
   "for\u00E5rsl\u00F8g", 0.25, "bundt", "frugt_gr\u00F8nt", "",
   "frosne \u00E6rter", 50, "gram", "frost", "",
@@ -159,7 +159,7 @@ kyllingebowl_opskr <- tibble::tribble(
   "frosne majs", 50, "gram", "frost", "",
   "hvidl\u00F8gsfed", 1, "stk", "frugt_gr\u00F8nt", "",
   "basmatiris", 50, "gram", "konserves", "",
-  "kylling", 0.14, "kg", "k\u00F8d", "",
+  "kylling", 140, "gram", "k\u00F8d", "",
   "lime", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "creme fraiche", 35, "gram", "mejeri", "m\u00E6lk",
   "fajita tex mex", 10, "gram", "konserves", "mexico"
@@ -168,7 +168,7 @@ kyllingebowl_opskr <- tibble::tribble(
 # lasagne ----
 lasagne_opskr <- tibble::tribble(
   ~"Lasagne", ~"maengde", ~"enhed",  ~"kat_1", ~"kat_2",
-  "kylling", 0.125, "kg", "k\u00F8d", "",
+  "kylling", 125, "gram", "k\u00F8d", "",
   "hakkede tomater", 100, "gram", "konserves", "tomas",
   "l\u00F8g", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "piskefl\u00F8de", 0.63, "dl", "mejeri", "m\u00E6lk",
@@ -367,5 +367,11 @@ varer <- tibble::tribble(
   "bananer", 1, "stk", "frugt_gr\u00F8nt", "",
   "\u00E6bler", 1, "pose(r)", "frugt_gr\u00F8nt", "",
   "skyr", 1, "kg", "mejeri", "",
-  "müsli fra kornkammeret (med appelsinknas)", 1, "pakke", "konserves", ""
+  "müsli fra kornkammeret (med appelsinknas)", 1, "pakke", "konserves", "",
+  "k\u00F8kkenrulle", 1, "pakke", "husholdning", "",
+  "toiletpapir", 1, "pakke", "husholdning", "",
+  "bagepapir", 1, "stk", "husholdning", "",
+  "husholdningsfilm", 1, "stk", "husholdning", "",
+  "opvaskemiddel", 1, "stk", "husholdning", "",
+  "h\u00E5nds\u00E6be", 1, "stk", "husholdning", ""
 )
