@@ -94,6 +94,13 @@ burger_opskr <- tibble::tribble(
 # frikadeller ----
 frikadeller_opskr <- tibble::tribble(
   ~"Frikadeller", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
+  "hakket svinek\u00F8d", 133.3, "gram", "k\u00F8d", "",
+  "l\u00F8g", 0.33, "stk", "frugt_gr\u00F8nt", "",
+  "mel", 10, "gram", "konserves", "mel",
+  "havregryn", 10, "gram", "konserves", "mel",
+  "salt (tilsmagning)", NA, "", "konserves", "krydderi",
+  "\u00E6g", 0.33, "stk", "mejeri", "",
+  "m\u00E6lk", 0.066, "liter", "mejeri", "m\u00E6lk"
 )
 
 # dahl ----
