@@ -21,7 +21,9 @@ retter <- tibble::tribble(
   "Chili con carne", "chili_con_carne_opskr", "okse",
   "Br\u00E6ndende k\u00E6rlighed", "braendende_kaerlighed_opskr", "gris",
   "Kartoffel-porre suppe", "kartoffel_porre_suppe_opskr", "gris",
-  "Kylling kiev", "kylling_kiev_opskr", "kylling")
+  "Kylling kiev", "kylling_kiev_opskr", "kylling",
+  "Pitabr\u00F8d", "pitabrod_opskr", "vegetar|kylling|gris"
+  )
 
 retter$count <- 1
 
@@ -94,9 +96,9 @@ burger_opskr <- tibble::tribble(
 # frikadeller ----
 frikadeller_opskr <- tibble::tribble(
   ~"Frikadeller", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "hakket svinek\u00F8d", 133.3, "gram", "k\u00F8d", "",
+  "hakket svinek\u00F8d", 166.6, "gram", "k\u00F8d", "",
   "l\u00F8g", 0.33, "stk", "frugt_gr\u00F8nt", "",
-  "mel", 10, "gram", "konserves", "mel",
+  "hvedemel", 10, "gram", "konserves", "mel",
   "havregryn", 10, "gram", "konserves", "mel",
   "salt (tilsmagning)", NA, "", "konserves", "krydderi",
   "\u00E6g", 0.33, "stk", "mejeri", "",
@@ -133,7 +135,7 @@ madpandekager_opskr <- tibble::tribble(
   "agurk", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "frosne majs", 0.1, "kg", "frost", "",
   "iceberg", 0.2, "stk", "frugt_gr\u00F8nt", "",
-  "creme fraiche dressing", 50, "gram", "mejeri", "m\u00E6lk"
+  "creme fraiche dressing", 50, "gram", "konserves", "dressing"
 )
 
 # ravioli ----
@@ -241,7 +243,7 @@ braendende_kaerlighed_opskr <- tibble::tribble(
   ~"Br\u00E6ndende k\u00E6rlighed", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "kartofler", 0.38, "kg", "frugt_gr\u00F8nt", "",
   "sm\u00F8r", 37.5, "gram", "mejeri", "", 
-  "m\u00E6lk", 0.25, "dl", "mejeri", "m\u00E6lk",
+  "m\u00E6lk", 0.025, "liter", "mejeri", "m\u00E6lk",
   "bacon i skiver", 87.5, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
   "l\u00F8g", 0.75, "stk", "frugt_gr\u00F8nt", "",
   "r\u00F8dbeder (tilbeh\u00F8r)", NA, "", "konserves", "",
@@ -278,6 +280,23 @@ kylling_kiev_opskr <- tibble::tribble(
 )
 
 
+
+# pitabrød ----
+pitabrod_opskr <- tibble::tribble(
+  ~"Pitab\u00F8d", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
+  "Pitabr\u00F8d", 2, "stk",  "frost", "",
+  "kylling", 80, "gram", "k\u00F8d", "",
+  "pepperoni", 60, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
+  "bacon i skiver", 60, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
+  "cocktailp\u00F8lser", 40, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
+  "r\u00F8d peber", 0.4, "stk", "frugt_gr\u00F8nt", "",
+  "agurk", 0.2, "stk", "frugt_gr\u00F8nt", "",
+  "frosne majs", 0.08, "kg", "frost", "",
+  "iceberg", 0.1, "stk", "frugt_gr\u00F8nt", "",
+  "creme fraiche dressing", 50, "gram", "konserves", "dressing"
+)
+
+
 # alle retter ----
 opskrifter <- list(morbrad_opskr = morbrad_opskr,
                    carbonara_opskr = carbonara_opskr,
@@ -297,7 +316,8 @@ opskrifter <- list(morbrad_opskr = morbrad_opskr,
                    chili_con_carne_opskr = chili_con_carne_opskr,
                    braendende_kaerlighed_opskr = braendende_kaerlighed_opskr,
                    kartoffel_porre_suppe_opskr = kartoffel_porre_suppe_opskr,
-                   kylling_kiev_opskr = kylling_kiev_opskr
+                   kylling_kiev_opskr = kylling_kiev_opskr,
+                   pitabrod_opskr = pitabrod_opskr
                    )
 
 
@@ -309,7 +329,8 @@ salater <- tibble::tribble(
   "Revet guler\u00F8dder", "revet_gulerodder_opskr", "vegetar",
   "Broccoli salat", "broccoli_salat_opskr", "vegetar",
   "Spidsk\u00E5lsalat med agurk og edamameb\u00F8nner", "spidskaal_agurk_opskr", "vegetar",
-  "Hytteostsalat", "hytteost_salat_opskr", "vegeatar"
+  "Hytteostsalat", "hytteost_salat_opskr", "vegetar",
+  "Broccoli", "broccoli", ""
 )
 
 revet_gulerodder_opskr <- tibble::tribble(
@@ -347,11 +368,17 @@ hytteost_salat_opskr <- tibble::tribble(
   "hytteost", 50, "gram", "mejeri", "ost"
 )
 
+broccoli_opsk <- tibble::tribble(
+  ~"Broccoli", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
+  "broccoli", 0.25, "stk", "frugt_gr\u00F8nt", "",
+)
+
 salater_opskrifter <- list(
   revet_gulerodder_opskr = revet_gulerodder_opskr,
   broccoli_salat_opskr = broccoli_salat_opskr,
   spidskaal_agurk_opskr = spidskaal_agurk_opskr,
-  hytteost_salat_opskr = hytteost_salat_opskr
+  hytteost_salat_opskr = hytteost_salat_opskr,
+  broccoli_opsk = broccoli_opsk
 )
 
 # basis varer ----
@@ -370,15 +397,23 @@ varer <- tibble::tribble(
   "leverpostej", 1, "pakke(r)", "k\u00F8d", "p\u00E5l\u00F8g",
   "\u00E6ggesalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
   "m\u00F8rk p\u00E5l\u00F8gschokolade", 1, "pakke(r)", "konserves", "",
-  "kn\u00F8kbr\u00F8d wasa sport", 1, "pakke(r)", "konserves", "",
+  "kn\u00E6kbr\u00F8d wasa sport", 1, "pakke(r)", "konserves", "",
   "bananer", 1, "stk", "frugt_gr\u00F8nt", "",
   "\u00E6bler", 1, "pose(r)", "frugt_gr\u00F8nt", "",
   "skyr", 1, "kg", "mejeri", "",
-  "müsli fra kornkammeret (med appelsinknas)", 1, "pakke", "konserves", "",
+  "müsli fra kornkammeret (med appelsinknas)", 1, "pakke(r)", "konserves", "",
   "k\u00F8kkenrulle", 1, "pakke", "husholdning", "",
   "toiletpapir", 1, "pakke", "husholdning", "",
   "bagepapir", 1, "stk", "husholdning", "",
   "husholdningsfilm", 1, "stk", "husholdning", "",
+  "fryseposer 4L", 1, "stk", "husholdning", "",
+  "fryseposer 8L", 1, "stk", "husholdning", "",
+  "skraldeposer 30L", 1, "stk", "husholdning", "",
+  "hvedemel", 1, "pakke(r)", "konserves", "",
+  "s\u00F8lvpapir", 1, "stk", "husholdning", "",
   "opvaskemiddel", 1, "stk", "husholdning", "",
-  "h\u00E5nds\u00E6be", 1, "stk", "husholdning", ""
+  "h\u00E5nds\u00E6be", 1, "stk", "husholdning", "",
+  "flydende margarine", 1, "stk", "konserves", "",
+  "farvet flydende vaskemiddel", 1, "stk", "husholdning", "",
+  "hvid flydende vaskemiddel", 1, "stk", "husholdning", ""
 )
