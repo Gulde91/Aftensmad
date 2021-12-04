@@ -204,7 +204,7 @@ server <- function(input, output) {
       ret_all
     })
 
-    # binder alle ugens retter til dataframe
+    # binder alle ugens retter til én dataframe
     observe({ 
 
       if (length(ret_all()) > 0) {
@@ -267,8 +267,9 @@ server <- function(input, output) {
                          data.frame(Indkobsliste = c("", paste0(.x$ret[1], ":"))),
                          select(.x, Indkobsliste)
                        )) %>%
+                       add_links(links) %>% 
                        bind_rows()
-
+        
         indkob <- bind_rows(indkob, uge_overblik_df, ingr_pr_ret)
         
         names(indkob) <- "Indk\u00F8bsliste"

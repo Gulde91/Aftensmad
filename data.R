@@ -255,12 +255,13 @@ kartoffel_porre_suppe_opskr <- tibble::tribble(
   ~"Kartoffel-porre suppe", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "sm\u00F8r", 2.5, "gram", "mejeri", "",
   "l\u00F8g", 0.25, "stk", "frugt_gr\u00F8nt", "",
+  "hvidl\u00F8gsfed", 0.5, "stk",  "frugt_og_gr\u00F8nt", "",
   "kartofler", 125, "gram", "frugt_gr\u00F8nt", "",
-  "porre", 0.25, "stk", "frugt_gr\u00F8nt", "",
-  "gr\u00F8ntsagsbouillon (tilsmagning)", NA, "", "konserves", "krydderi",
+  "porre", 0.5, "stk", "frugt_gr\u00F8nt", "",
+  "h\u00F8nsefondbouillon", 2, "stk", "konserves", "krydderi",
   "piskefl\u00F8de", 0.25, "dl", "mejeri", "m\u00E6lk",
   "bacon i skiver", 37.5, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
-  "br\u00F8d (tilbeh\u00F8r)", NA, "", "br\u00F8d", ""
+  "br\u00F8d (tilbeh\u00F8r)", NA, "", "br\u00F8d", "",
 )
 
 # kylling kiev ----
@@ -417,3 +418,19 @@ varer <- tibble::tribble(
   "farvet flydende vaskemiddel", 1, "stk", "husholdning", "",
   "hvid flydende vaskemiddel", 1, "stk", "husholdning", ""
 )
+
+# links ----
+links <- tibble::tribble(
+  ~ret, ~link,
+  "M\u00F8rbradgryde", "https://www.femina.dk/mad/aftensmad/klassisk-moerbradgryde",
+  "Carbonara", "https://www.valdemarsro.dk/carbonara_opskrift/",
+  "Pizza", "https://rigeligtsmor.dk/opskrift-pizzadej-med-surdej/",
+  "Kyllingebowl", "https://www.hellofresh.dk/recipes/fajita-kyllingebowl-5fa3dff00e1d695ec60e5721",
+  "Dahl", "https://www.valdemarsro.dk/dhal-med-raita/",
+  "Lasagne", "https://www.dk-kogebogen.dk/opskrifter/19934/kyllingelasagne-med-spinat",
+  "Chili con carne", "https://www.valdemarsro.dk/chili-con-carne/",
+  "Br\u00E6ndende k\u00E6rlighed", "https://www.valdemarsro.dk/braendende-kaerlighed/",
+  "Kartoffel-porre suppe", "https://madensverden.dk/kartoffel-porre-suppe/",
+  "Kylling kiev", "https://www.hellofresh.dk/recipes/chicken-kiev-5efed5bde9cd8816990b92d6"
+)
+

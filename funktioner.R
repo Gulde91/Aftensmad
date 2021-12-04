@@ -61,3 +61,23 @@ f <- function(i) {
       onclick = 'Shiny.setInputValue(\"deletePressed\", this.id, {priority: "event"})'))
 }
 
+add_links <- function(retter, links) {
+  
+  stopifnot(is.list(retter), is.data.frame(links))
+  
+  retter_navne <- names(retter)
+  
+  retter <- mapply(x = retter, y = retter_navne, SIMPLIFY = FALSE,
+                   function(x, y) {
+                     if (y %in% links$ret) {
+                       x[nrow(x) + 1, 1] <- links$link[links$ret == y]
+                     }
+                     return(x)
+                   }
+  )
+  
+  names(retter) <- retter_navne
+  
+  return(retter)
+  
+}
