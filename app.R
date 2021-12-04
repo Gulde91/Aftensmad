@@ -20,11 +20,13 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(width = 3,
             
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 200px;",
                 selectInput("man_ret", "Mandag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+            div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("man_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
+                selectInput("man_tilbehor", "Tilbeh\u00F8r", choices = ""),
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("man_salat", "Salat", choices = salater$retter)),
             #br(),
 
