@@ -30,7 +30,7 @@ retter$count <- 1
 # mørbradgryde ----
 morbrad_opskr <- tibble::tribble(
   ~"M\u00F8rbradgryde", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "svinem\u00F8rbrad", 0.5, "stk", "k\u00F8d", "",
+  "svinem\u00F8rbrad", 0.25, "stk", "k\u00F8d", "",
   "cocktailp\u00F8lser", 100, "gram", "kød", "p\u00E5l\u00E6g",
   "bacon i skiver", 40, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
   "l\u00F8g", 0.5, "stk", "frugt_gr\u00F8nt", "",
@@ -70,7 +70,7 @@ pizza_opskr <- tibble::tribble(
   "durummel", 25, "gram", "konserves", "mel",
   "l\u00F8g", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "hvidl\u00F8g", 1, "stk", "frugt_gr\u00F8nt", "",
-  "balsamico", 0.05, "dl", "konserves", "",
+  "hvidvinseddike", 0.05, "dl", "konserves", "",
   "tomatpure", 0.5, "d\u00E5se(r)", "konserves", "tomat",
   "hakkede tomater", 0.5, "d\u00E5se(r)", "konserves", "tomat",
   "engelsk sovs (tilsmagning)", NA, "", "konserves", "",
@@ -292,7 +292,7 @@ pitabrod_opskr <- tibble::tribble(
   "cocktailp\u00F8lser", 40, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
   "r\u00F8d peber", 0.4, "stk", "frugt_gr\u00F8nt", "",
   "agurk", 0.2, "stk", "frugt_gr\u00F8nt", "",
-  "frosne majs", 0.08, "kg", "frost", "",
+  "frosne majs", 0.04, "kg", "frost", "",
   "iceberg", 0.1, "stk", "frugt_gr\u00F8nt", "",
   "creme fraiche dressing", 50, "gram", "konserves", "dressing"
 )
