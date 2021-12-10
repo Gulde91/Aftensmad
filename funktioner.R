@@ -1,32 +1,37 @@
 
-opskrift <- function(opskrifter, retter, salater, salater_opskrifter, 
-                     dag_ret, dag_salat, antal) {
+opskrift <- function(opskrifter, retter, salater, salater_opskrifter, tilbehor, 
+                     dag_ret, dag_salat, antal, dag_tilbehor) {
+  
   
   if (dag_ret != "V\u00E6lg ret") {
-    
     ret <- opskrifter[[retter$key[retter$retter == dag_ret]]]
     ret$maengde <- ret$maengde * antal
-    
   } else {
     ret <- NULL
   }
   
-  if (dag_salat != "V\u00E6lg salat") {
-    
+  if (dag_salat != "") {
     salat <- salater_opskrifter[[salater$key[salater$retter == dag_salat]]]
     salat$maengde <- salat$maengde * antal
-
   } else {
     salat <- NULL
   }
   
-  if (!is.null(ret) & !is.null(salat)) {
+  if (!is.null(dag_tilbehor)) {
+    tilbehor_all <- filter(tilbehor, Indkobsliste %in% dag_tilbehor)
+    tilbehor_all$maengde <- tilbehor_all$maengde * antal # / length(dag_tilbehor)
+  } else {
+    tilbehor_all <- NULL
+  }
+  
+  if (!is.null(ret) & (!is.null(salat) | !is.null(tilbehor_all))) {
     name_ret <- paste(names(ret)[1], "m.", names(salat)[1])
     names(ret)[1] <- name_ret
     names(salat)[1] <- name_ret
+    if (!is.null(tilbehor_all)) names(tilbehor_all)[1] <- name_ret
   }
   
-  rbind(ret, salat)
+  rbind(ret, salat, tilbehor_all)
   
 }
 

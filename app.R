@@ -20,56 +20,82 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(width = 3,
             
+            h4(strong("Mandag")),
             div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("man_ret", "Mandag:", choices = retter$retter)),
+                selectInput("man_ret", "Ret", choices = retter$retter)),
             div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("man_pers", "Pers.", value = 2)),
             div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("man_tilbehor", "Tilbeh\u00F8r", choices = ""),
+                selectInput("man_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
+                            choices = tilbehor$Indkobsliste)
+                ),
             div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("man_salat", "Salat", choices = salater$retter)),
-            #br(),
-
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                selectInput("tirs_ret", "Tirsdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+            
+            h4(strong("Tirsdag")),
+            div(style = "display: inline-block;vertical-align:top; width: 200px;",
+                selectInput("tirs_ret", "Ret", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("tirs_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
+                selectInput("tirs_tilbehor", "Tilbeh\u00F8r", multiple = TRUE, 
+                            choices = tilbehor$Indkobsliste)),
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("tirs_salat", "Salat", choices = salater$retter)),
             
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                selectInput("ons_ret", "Onsdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+            h4(strong("Onsdag")),
+            div(style = "display: inline-block;vertical-align:top; width: 200px;",
+                selectInput("ons_ret", "Ret", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("ons_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
+                selectInput("ons_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,  
+                            choices = tilbehor$Indkobsliste)),
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("ons_salat", "Salat", choices = salater$retter)),
             
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                selectInput("tors_ret", "Torsdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+            h4(strong("Torsdag")),
+            div(style = "display: inline-block;vertical-align:top; width: 200px;",
+                selectInput("tors_ret", "Ret", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("tors_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
+                selectInput("tors_tilbehor", "Tilbeh\u00F8r", multiple = TRUE, 
+                            choices = tilbehor$Indkobsliste)),
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("tors_salat", "Salat", choices = salater$retter)),
             
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                selectInput("fre_ret", "Fredag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+            h4(strong("Fredag")),
+            div(style = "display: inline-block;vertical-align:top; width: 200px;",
+                selectInput("fre_ret", "Ret", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("fre_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
+                selectInput("fre_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
+                            choices = tilbehor$Indkobsliste)),
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("fre_salat", "Salat", choices = salater$retter)),
             
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                selectInput("lor_ret", "L\u00F8rdag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+            h4(strong("L\u00F8rdag")),
+            div(style = "display: inline-block;vertical-align:top; width: 200px;",
+                selectInput("lor_ret", "Ret", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("lor_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
+                selectInput("lor_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
+                            choices = tilbehor$Indkobsliste)),
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("lor_salat", "Salat", choices = salater$retter)),
-            
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
-                selectInput("son_ret", "S\u00F8ndag:", choices = retter$retter)),
-            div(style = "display: inline-block;vertical-align:top; width: 50px;",
+
+            h4(strong("S\u00F8ndag")),
+            div(style = "display: inline-block;vertical-align:top; width: 200px;",
+                selectInput("son_ret", "Ret", choices = retter$retter)),
+            div(style = "display: inline-block;vertical-align:top; width: 70px;",
                 numericInput("son_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 110px;",
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
+                selectInput("son_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
+                            choices = tilbehor$Indkobsliste)),
+            div(style = "display: inline-block;vertical-align:top; width: 135px;",
                 selectInput("son_salat", "Salat", choices = salater$retter)),
             
             ),
@@ -106,8 +132,8 @@ ui <- fluidPage(
                     tabPanel("Indk\u00F8bsliste",
                              br(),
                              box(width = 4, DT::dataTableOutput("indkobsseddel")),
-                             box(
-                             div(style = "display: inline-block;vertical-align:top; width: 110px;",
+                             box(width = 6,
+                             div(style = "display: inline-block;vertical-align:top; width: 200px;",
                                  selectInput("basis_varer", "Tilf\u00F8j varer", varer$Indkobsliste)),
                              div(style = "display: inline-block;vertical-align:top; width: 70px;",
                                  numericInput("antal_basis_varer", "Antal", value = 1)),
@@ -145,38 +171,38 @@ server <- function(input, output) {
 
     # Opskrifter ----
     ret_man <- reactive(
-      opskrift(opskrifter, retter, salater, salater_opskrifter,
-               input$man_ret, input$man_salat, input$man_pers)
+      opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+               input$man_ret, input$man_salat, input$man_pers, input$man_tilbehor)
       )
     
     ret_tirs <- reactive(
-      opskrift(opskrifter, retter, salater, salater_opskrifter,
-               input$tirs_ret, input$tirs_salat, input$tirs_pers)
+      opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+               input$tirs_ret, input$tirs_salat, input$tirs_pers, input$tirs_tilbehor)
       )
     
     ret_ons <- reactive(
-      opskrift(opskrifter, retter, salater, salater_opskrifter,
-               input$ons_ret, input$ons_salat, input$ons_pers)
+      opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+               input$ons_ret, input$ons_salat, input$ons_pers, input$ons_tilbehor)
       )
     
     ret_tors <- reactive(
-      opskrift(opskrifter, retter, salater, salater_opskrifter,
-               input$tors_ret, input$tors_salat, input$tors_pers)
+      opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+               input$tors_ret, input$tors_salat, input$tors_pers, input$tors_tilbehor)
       )
     
     ret_fre <- reactive(
-      opskrift(opskrifter, retter, salater, salater_opskrifter,
-               input$fre_ret, input$fre_salat, input$fre_pers)
+      opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+               input$fre_ret, input$fre_salat, input$fre_pers, input$fre_tilbehor)
       )
     
     ret_lor <- reactive(
-      opskrift(opskrifter, retter, salater, salater_opskrifter,
-               input$lor_ret, input$lor_salat, input$lor_pers)
+      opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+               input$lor_ret, input$lor_salat, input$lor_pers, input$lor_tilbehor)
       )
     
     ret_son <- reactive(
-      opskrift(opskrifter, retter, salater, salater_opskrifter,
-               input$son_ret, input$son_salat, input$son_pers)
+      opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+               input$son_ret, input$son_salat, input$son_pers, input$son_tilbehor)
       )
 
     output$dt_mandag <- renderDataTable(display_opskrift(ret_man()))
