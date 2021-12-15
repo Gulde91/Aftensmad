@@ -63,8 +63,7 @@ fiskefilet_opskr <- tibble::tribble(
   ~"Fiskefilet", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "fiskefilet", 1, "stk", "frost", "",
   "remoulade (tilbeh\u00F8r)", NA, "", "konserves", "dressing",
-  "citronsaft (tilbeh\u00F8r)", NA, "", "konserves", "",
-  "kartofler", 0.25, "kg", "frugt_gr\u00F8nt", ""
+  "citronsaft (tilbeh\u00F8r)", NA, "", "konserves", ""
 )
 
 # pizza ----
@@ -254,11 +253,7 @@ lasagne_opskr <- tibble::tribble(
 # kalkunschnitzel ----
 kalkunschnitzel_opskr <- tibble::tribble(
   ~"Kalkunschnitzel", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "kalkun", 150, "gram", "k\u00F8d", "", 
-  "kartofler", 150, "gram", "frugt_gr\u00F8nt", "",
-  "guler\u00F8dder", 100, "gram", "frugt_gr\u00F8nt", "",
-  "sm\u00F8r", 10, "gram", "mejeri", "",
-  "hvidl\u00F8gsflute", 0.5, "stk", "frost", ""
+  "kalkun", 150, "gram", "k\u00F8d", ""
 )
 
 # risengrød ----
@@ -329,18 +324,17 @@ kartoffel_porre_suppe_opskr <- tibble::tribble(
 
 # kylling kiev ----
 kylling_kiev_opskr <- tibble::tribble(
-~"Kylling kiev", ~"maengde",  ~"enhed", ~"kat_1",  ~"kat_2",
-"kyllingebrystfilet", 1, "stk", "k\u00F8d", "",
-"rodfrugter", 150, "gram", "frugt_og_gr\u00F8nt", "",
-"spinat", 30, "gram",  "frugt_og_gr\u00F8nt", "",
-"citron",  0.5, "stk", "frugt_og_gr\u00F8nt", "",
-"persille", 20, "gram", "frugt_og_gr\u00F8nt", "",
-"r\u00F8dl\u00F8g", 0.5, "stk", "frugt_og_gr\u00F8nt", "",
-"hvidl\u00F8gsfed", 0.5, "stk",  "frugt_og_gr\u00F8nt", "",
-"panko", 15, "gram", "konserves", "",
-"aioli", 25, "gram", "konserves", "dressing",
-"\u00E6gg", 0.5, "stk", "mejeri", "",
-"sm\u00F8r", 30, "gram", "mejeri", ""
+  ~"Kylling kiev", ~"maengde",  ~"enhed", ~"kat_1",  ~"kat_2",
+  "kyllingebrystfilet", 1, "stk", "k\u00F8d", "",
+  "spinat", 30, "gram",  "frugt_og_gr\u00F8nt", "",
+  "citron",  0.5, "stk", "frugt_og_gr\u00F8nt", "",
+  "persille", 20, "gram", "frugt_og_gr\u00F8nt", "",
+  "r\u00F8dl\u00F8g", 0.5, "stk", "frugt_og_gr\u00F8nt", "",
+  "hvidl\u00F8gsfed", 0.5, "stk",  "frugt_og_gr\u00F8nt", "",
+  "panko", 15, "gram", "konserves", "",
+  "aioli", 25, "gram", "konserves", "dressing",
+  "\u00E6gg", 0.5, "stk", "mejeri", "",
+  "sm\u00F8r", 30, "gram", "mejeri", ""
 )
 
 
@@ -396,9 +390,11 @@ opskrifter <- list(morbrad_opskr = morbrad_opskr,
 tilbehor <- tibble::tribble(
   ~"Indkobsliste", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "kartofler", 0.25, "kg", "frugt_gr\u00F8nt", "",
+  "rodfrugter", 150, "gram", "frugt_og_gr\u00F8nt", "",
   "sweet potato fries", 0.25, "kg", "frost", "",
   "guler\u00F8dder", 100, "gram", "frugt_gr\u00F8nt", "",
-  "curly fries", 0.25, "kg", "frost", ""
+  "curly fries", 0.25, "kg", "frost", "",
+  "hvidl\u00F8gsflute", 0.5, "stk", "frost", ""
 )
 
 
