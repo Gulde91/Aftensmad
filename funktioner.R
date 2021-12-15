@@ -12,7 +12,8 @@ opskrift <- function(opskrifter, retter, salater, salater_opskrifter, tilbehor,
   
   if (!is.null(dag_tilbehor)) {
     tilbehor_all <- filter(tilbehor, Indkobsliste %in% dag_tilbehor)
-    tilbehor_all$maengde <- tilbehor_all$maengde * antal # / length(dag_tilbehor)
+    tilbehor_all$maengde <- tilbehor_all$maengde * antal / length(dag_tilbehor)
+    tilbehor_all$maengde <- round(tilbehor_all$maengde, 4)
     if(!is.null(ret)) names(tilbehor_all)[1] <-  names(ret)[1]
   } else {
     tilbehor_all <- NULL
