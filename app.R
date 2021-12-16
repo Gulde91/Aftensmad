@@ -134,7 +134,7 @@ ui <- fluidPage(
                              box(width = 6, DT::dataTableOutput("indkobsseddel")),
                              box(width = 6,
                              div(style = "display: inline-block;vertical-align:top; width: 300px;",
-                                 selectInput("basis_varer", "Tilf\u00F8j varer", varer$Indkobsliste)),
+                                 selectInput("basis_varer", "Tilf\u00F8j varer", sort(varer$Indkobsliste))),
                              div(style = "display: inline-block;vertical-align:top; width: 60px;",
                                  numericInput("antal_basis_varer", "Antal", value = 1)),
                              div(style = "display: inline-block;vertical-align:top; 
