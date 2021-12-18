@@ -144,8 +144,8 @@ madpandekager_opskr <- tibble::tribble(
 # ravioli ----
 ravioli_opskr <- tibble::tribble(
   ~"Ravioli", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "ravioli", 100, "gram", "k\u00F8l", "",
-  "pesto", 30, "gram", "konserves", ""
+  "ravioli", 200, "gram", "k\u00F8l", "",
+  "pesto", 40, "gram", "konserves", ""
 )
 # pulled chicken ----
 pulledchicken_opskr <- tibble::tribble(
