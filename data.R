@@ -333,7 +333,7 @@ kylling_kiev_opskr <- tibble::tribble(
   "hvidl\u00F8gsfed", 0.5, "stk",  "frugt_og_gr\u00F8nt", "",
   "panko", 15, "gram", "konserves", "",
   "aioli", 25, "gram", "konserves", "dressing",
-  "\u00E6gg", 0.5, "stk", "mejeri", "",
+  "\u00E6g", 0.5, "stk", "mejeri", "",
   "sm\u00F8r", 30, "gram", "mejeri", ""
 )
 
