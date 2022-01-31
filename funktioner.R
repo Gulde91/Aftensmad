@@ -55,7 +55,7 @@ display_opskrift <- function(ret_opskr) {
 
 parseDeleteEvent <- function(idstr) {
   res <- as.integer(sub(".*_([0-9]+)", "\\1", idstr))
-  if (! is.na(res)) res
+  if (!is.na(res)) res
 }
 
 f <- function(i) {
@@ -76,8 +76,9 @@ add_links <- function(retter, links) {
   
   retter <- mapply(x = retter, y = retter_navne, SIMPLIFY = FALSE,
                    function(x, y) {
-                     if (y %in% links$ret) {
-                       x[nrow(x) + 1, 1] <- links$link[links$ret == y]
+                     y_kor <- stringr::str_replace(y, " m\\..+$", "")
+                     if (y_kor %in% links$ret) {
+                       x[nrow(x) + 1, 1] <- links$link[links$ret == y_kor]
                      }
                      return(x)
                    }

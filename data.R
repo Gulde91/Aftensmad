@@ -136,7 +136,7 @@ madpandekager_opskr <- tibble::tribble(
   "tacoskal", 1, "stk",  "konserves", "mexico",
   "r\u00F8d peber", 0.5, "stk", "frugt_gr\u00F8nt", "",
   "agurk", 0.25, "stk", "frugt_gr\u00F8nt", "",
-  "frosne majs", 0.1, "kg", "frost", "",
+  "frosne majs", 100, "gram", "frost", "",
   "iceberg", 0.2, "stk", "frugt_gr\u00F8nt", "",
   "creme fraiche dressing", 50, "gram", "konserves", "dressing"
 )
@@ -211,7 +211,7 @@ fyldtepeberfrugter_opskr <- tibble::tribble(
 bacon_kylling_taerte_opskr <- tibble::tribble(
   ~"Bacon kyllinge t\u00E6rte", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "f\u00E6rdig t\u00E6rtedej", 0.25, "rulle(r)", "k\u00F8l", "",
-  "bacon i tern", 0.25, "pakke(r)", "k\u00F8d", "p\u00E5l\u00E6g",
+  "bacon i tern", 50, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
   "for\u00E5rsl\u00F8g", 0.25, "bundt", "frugt_gr\u00F8nt", "",
   "frosne \u00E6rter", 50, "gram", "frost", "",
   "karry (tilsmagning)", NA, "", "konserves", "krydderi",
@@ -239,10 +239,11 @@ kyllingebowl_opskr <- tibble::tribble(
 # lasagne ----
 lasagne_opskr <- tibble::tribble(
   ~"Lasagne", ~"maengde", ~"enhed",  ~"kat_1", ~"kat_2",
-  "kylling", 125, "gram", "k\u00F8d", "",
+  "kylling", 100, "gram", "k\u00F8d", "",
   "hakkede tomater", 100, "gram", "konserves", "tomas",
   "l\u00F8g", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "piskefl\u00F8de", 0.63, "dl", "mejeri", "m\u00E6lk",
+  "guler\u00F8dder", 50, "gram", "frugt_gr\u00F8nt", "",
   "ketchup (tilsmagning)", NA, "", "konserves", "",
   "lasagneplader", 2.25, "stk", "konserves", "",
   "revet mozzarella", 50, "gram", "mejeri", "ost",
@@ -270,7 +271,7 @@ madpangekager_paa_panden_opskr <- tibble::tribble(
   ~"Madpangekager p\u00E5 panden", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "l\u00F8g", 2, "stk", "frugt_gr\u00F8nt", "",
   "kylling", 150, "gram", "k\u00F8d", "",
-  "r\u00F8d peberfrugt", 1, "stk", "frugt_gr\u00F8nt", "",
+  "r\u00F8d peberfrugt", 0.75, "stk", "frugt_gr\u00F8nt", "",
   "revet mozzarella", 50, "gram", "mejeri", "ost",
   "madpandekager", 2, "stk", "konserves", "mexico",
   "salsa", 0.5, "d\u00E5se(r)", "konserves", "mexico"
@@ -341,7 +342,7 @@ kylling_kiev_opskr <- tibble::tribble(
 
 # pitabrød ----
 pitabrod_opskr <- tibble::tribble(
-  ~"Pitab\u00F8d", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
+  ~"Pitabr\u00F8d", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "Pitabr\u00F8d", 2, "stk",  "frost", "",
   "kylling", 80, "gram", "k\u00F8d", "",
   "pepperoni", 60, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
@@ -349,7 +350,7 @@ pitabrod_opskr <- tibble::tribble(
   "cocktailp\u00F8lser", 40, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
   "r\u00F8d peber", 0.4, "stk", "frugt_gr\u00F8nt", "",
   "agurk", 0.2, "stk", "frugt_gr\u00F8nt", "",
-  "frosne majs", 0.04, "kg", "frost", "",
+  "frosne majs", 40, "gram", "frost", "",
   "iceberg", 0.1, "stk", "frugt_gr\u00F8nt", "",
   "creme fraiche dressing", 50, "gram", "konserves", "dressing"
 )
@@ -394,7 +395,7 @@ tilbehor <- tibble::tribble(
   "sweet potato fries", 0.25, "kg", "frost", "",
   "guler\u00F8dder", 100, "gram", "frugt_gr\u00F8nt", "",
   "curly fries", 0.25, "kg", "frost", "",
-  "hvidl\u00F8gsflute", 0.5, "stk", "frost", ""
+  "hvidl\u00F8gsflute", 0.33, "stk", "frost", ""
 )
 
 
@@ -475,7 +476,6 @@ salater_opskrifter <- list(
 # basis varer ----
 varer <- tibble::tribble(
   ~"Indkobsliste", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "V\u00E6lg vare", NA, "", "", "",
   "m\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
   "sm\u00F8r", 1, "stk", "mejeri", "",
   "libero str. 4", 1, "stk", "baby", "",
@@ -506,7 +506,8 @@ varer <- tibble::tribble(
   "h\u00E5nds\u00E6be", 1, "stk", "husholdning", "",
   "flydende margarine", 1, "stk", "konserves", "",
   "farvet flydende vaskemiddel", 1, "stk", "husholdning", "",
-  "hvid flydende vaskemiddel", 1, "stk", "husholdning", ""
+  "hvid flydende vaskemiddel", 1, "stk", "husholdning", "",
+  "tunsalat", 1, "pakke(r)", "p\u00E5l\u00F8g", ""
 )
 
 # links ----

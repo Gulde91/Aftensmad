@@ -263,15 +263,17 @@ server <- function(input, output) {
         
         indkob <- rv$df
         
-        rund_op <- c("stk", "d\u00E5se(r)", "pakke(r)", "rulle(r)")
-        indkob$maengde <- ifelse(indkob$enhed %in% rund_op, 
-                                 ceiling(indkob$maengde), indkob$maengde)
-        
+        # summerer indkøb
         indkob <- indkob %>% 
           group_by(Indkobsliste, enhed, kat_1, kat_2) %>% 
           summarise(maengde = sum(maengde), .groups = "drop") %>% 
           arrange(kat_1, kat_2)
         
+        # runder op
+        rund_op <- c("stk", "d\u00E5se(r)", "pakke(r)", "rulle(r)")
+        indkob$maengde <- ifelse(indkob$enhed %in% rund_op, 
+                                 ceiling(indkob$maengde), indkob$maengde)
+
         indkob$Indkobsliste <- paste(indkob$maengde, indkob$enhed, indkob$Indkobsliste)
         indkob$Indkobsliste <- gsub("NA", "", indkob$Indkobsliste) %>% trimws()
         indkob <- indkob[, "Indkobsliste"]
