@@ -232,7 +232,7 @@ kyllingebowl_opskr <- tibble::tribble(
   "basmatiris", 50, "gram", "konserves", "",
   "kylling", 140, "gram", "k\u00F8d", "",
   "lime", 0.25, "stk", "frugt_gr\u00F8nt", "",
-  "creme fraiche", 35, "gram", "mejeri", "m\u00E6lk",
+  "creme fraiche", 0.75, "dl", "mejeri", "m\u00E6lk",
   "fajita tex mex", 10, "gram", "konserves", "mexico"
 )
 
@@ -433,7 +433,7 @@ broccoli_salat_opskr <- tibble::tribble(
 # boennesalat ----
 boenne_salat_opskr <- tibble::tribble(
   ~"B\u00F8nnesalat", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "gr\u00F8nne b\u00F8nner (frost)", 75, "gram", "frugt_gr\u00F8nt", "",
+  "gr\u00F8nne b\u00F8nner (frost)", 75, "gram", "frost", "",
   "solt\u00F8rrede tomater i tern", 12.5, "gram", "konserves", "",
   "fetaost", 25, "gram", "mejeri", "",
   "br\u00F8dcroutoner", 50, "gram", "konserves", ""
@@ -476,7 +476,7 @@ salater_opskrifter <- list(
 # basis varer ----
 varer <- tibble::tribble(
   ~"Indkobsliste", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "m\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
+  "skummetm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
   "sm\u00F8r", 1, "stk", "mejeri", "",
   "libero str. 4", 1, "stk", "baby", "",
   "babypads", 1, "stk", "baby", "",
