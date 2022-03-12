@@ -112,7 +112,7 @@ frikadeller_opskr <- tibble::tribble(
 dahl_opskr <- tibble::tribble(
   ~"Dahl", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "hvidl\u00F8g", 1.25, "stk", "frugt_gr\u00F8nt", "",
-  "ingef\u00E6r", 0.5, "spsk", "frugt_gr\u00F8nt", "",
+  "ingef\u00E6r", 0.5, "stk", "frugt_gr\u00F8nt", "",
   "karry (tilsmagning)", NA, "", "konserves", "krydderi",
   "spidskommen (tilsmagning)", NA, "", "konserves", "krydderi",
   "koriander (tilsmagning)", NA, "", "konserves", "krydderi",
@@ -239,7 +239,7 @@ kyllingebowl_opskr <- tibble::tribble(
 # lasagne ----
 lasagne_opskr <- tibble::tribble(
   ~"Lasagne", ~"maengde", ~"enhed",  ~"kat_1", ~"kat_2",
-  "kylling", 100, "gram", "k\u00F8d", "",
+  "kylling", 150, "gram", "k\u00F8d", "",
   "hakkede tomater", 100, "gram", "konserves", "tomas",
   "l\u00F8g", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "piskefl\u00F8de", 0.63, "dl", "mejeri", "m\u00E6lk",
@@ -289,7 +289,7 @@ chili_con_carne_opskr <- tibble::tribble(
   "hakkede tomater", 0.25, "d\u00E5se(r)", "konserves", "tomat",
   "solt\u00F8rrede tomater", 0.75, "spsk", "konserves", "tomat",
   "oksebouillon (tilsmagning)", NA, "", "konserves", "krydderi",
-  "kidneyb\u00F8nner", 0.25, "d\u00E5se(r)", "konserves", "", 
+  "kidneyb\u00F8nner", 0.2, "d\u00E5se(r)", "konserves", "", 
   "m\u00F8rk chokolade", 10, "", "gram", "slik",
   "olivenolie (tilsmagning)", NA, "", "konserves", "",
   "nachos", 31.25, "gram", "chips", "",
@@ -436,7 +436,7 @@ boenne_salat_opskr <- tibble::tribble(
   "gr\u00F8nne b\u00F8nner (frost)", 75, "gram", "frost", "",
   "solt\u00F8rrede tomater i tern", 12.5, "gram", "konserves", "",
   "fetaost", 25, "gram", "mejeri", "",
-  "br\u00F8dcroutoner", 50, "gram", "konserves", ""
+  "br\u00F8dcroutoner", 10, "gram", "konserves", ""
 )
 # spidskål agurk salat ----
 spidskaal_agurk_opskr <- tibble::tribble(
