@@ -130,7 +130,7 @@ dahl_opskr <- tibble::tribble(
 # madpandekager ----
 madpandekager_opskr <- tibble::tribble(
   ~"Madpandekager", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "kylling", 100, "gram", "k\u00F8d", "",
+  "kylling", 125, "gram", "k\u00F8d", "",
   "crispy chicken tex mex", 0.5, "stk",  "konserves", "mexico",
   "madpandekager", 1, "stk",  "konserves", "mexico",
   "tacoskal", 1, "stk",  "konserves", "mexico",
@@ -224,15 +224,14 @@ bacon_kylling_taerte_opskr <- tibble::tribble(
 # kyllingebowl ----
 kyllingebowl_opskr <- tibble::tribble(
   ~"Kyllingebowl", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "r\u00F8d peber", 0.5, "stk", "frugt_gr\u00F8nt", "",
-  "gul peber", 0.5, "stk", "frugt_gr\u00F8nt", "",
+  "r\u00F8d peber", 1, "stk", "frugt_gr\u00F8nt", "",
   "r\u00F8dl\u00F8g", 0.5, "stk", "frugt_gr\u00F8nt", "",
   "frosne majs", 50, "gram", "frost", "",
   "hvidl\u00F8gsfed", 1, "stk", "frugt_gr\u00F8nt", "",
   "basmatiris", 50, "gram", "konserves", "",
-  "kylling", 140, "gram", "k\u00F8d", "",
+  "kylling", 175, "gram", "k\u00F8d", "",
   "lime", 0.25, "stk", "frugt_gr\u00F8nt", "",
-  "creme fraiche", 0.75, "dl", "mejeri", "m\u00E6lk",
+  "creme fraiche", 1.2, "dl", "mejeri", "m\u00E6lk",
   "fajita tex mex", 10, "gram", "konserves", "mexico"
 )
 
@@ -395,6 +394,7 @@ tilbehor <- tibble::tribble(
   "sweet potato fries", 0.25, "kg", "frost", "",
   "guler\u00F8dder", 100, "gram", "frugt_gr\u00F8nt", "",
   "curly fries", 0.25, "kg", "frost", "",
+  "r\u00F6sti", 0.25, "kg", "frost", "",
   "hvidl\u00F8gsflute", 0.33, "stk", "frost", ""
 )
 
