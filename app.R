@@ -140,6 +140,10 @@ ui <- fluidPage(
                              div(style = "display: inline-block;vertical-align:top; 
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer", "Tilf\u00F8j", class = "btn-success")),
+                             h5(strong("Guide til at redigere indk\u00F8bslisten:")),
+                             h6("1) Tilf\u00F8j basisvarer"),
+                             h6("2) Fjern varer"),
+                             h6("3) Rediger m\u00E6ngder"),
                              )
                              
                              )
