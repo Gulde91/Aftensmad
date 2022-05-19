@@ -133,16 +133,41 @@ ui <- fluidPage(
                              br(),
                              box(width = 6, DT::dataTableOutput("indkobsseddel")),
                              box(width = 6,
+                             # liste med basisvarer
                              div(style = "display: inline-block;vertical-align:top; width: 300px;",
-                                 selectInput("basis_varer", "Tilf\u00F8j varer", sort(varer$Indkobsliste))),
+                                 selectInput("basis_varer", "Tilf\u00F8j varer fra liste", 
+                                             sort(varer$Indkobsliste))),
                              div(style = "display: inline-block;vertical-align:top; width: 60px;",
                                  numericInput("antal_basis_varer", "Antal", value = 1)),
                              div(style = "display: inline-block;vertical-align:top; 
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer", "Tilf\u00F8j", class = "btn-success")),
+                             hr(style="border-color:grey;"),
+                             # manuelt input
+                             div(style = "display: inline-block;vertical-align:top; width: 200px;",
+                                 textInput("basis_varer_manuel", label = "Tilf\u00F8j varer manuelt")),
+                             div(style = "display: inline-block;vertical-align:top; width: 80px;",
+                                 numericInput("antal_basis_varer_manuel", "M\u00E6ngde", value = 1)),
+                             div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                                 selectInput("enhed_basis_varer_manuel", "Enhed", 
+                                             map_df(opskrifter, ~select(.x, enhed))$enhed |> 
+                                               unique() |> sort())),
+                             div(style = "display: inline-block;vertical-align:top; width: 130px;",
+                                 selectInput("add_kat_1", "Kategori 1", 
+                                             map_df(opskrifter, ~select(.x, kat_1))$kat_1 |> 
+                                               unique() |> sort(), "konserves")),
+                             div(style = "display: inline-block;vertical-align:top; width: 130px;",
+                                 selectInput("add_kat_2", "Kategori 2", 
+                                             map_df(opskrifter, ~select(.x, kat_2))$kat_2 |> 
+                                               unique() |> sort())),
+                             div(style = "display: inline-block;vertical-align:top; 
+                                 margin-top: 25px; width: 50px;",
+                                 actionButton("add_varer_manuel", "Tilf\u00F8j", class = "btn-success")),
+                             hr(style="border-color:grey;"),
+                             # guide
                              h5(strong("Guide til at redigere indk\u00F8bslisten:")),
-                             h6("1) Tilf\u00F8j basisvarer"),
-                             h6("2) Fjern varer"),
+                             h6("1) Tilf\u00F8j varer"),
+                             h6("2) Fjern/slet varer"),
                              h6("3) Rediger m\u00E6ngder"),
                              )
                              
@@ -260,6 +285,23 @@ server <- function(input, output) {
 
     })
 
+    observeEvent(input$add_varer_manuel, {
+      
+      # if (input$basis_varer != "V\u00E6lg vare") {
+        varer_manuel_tmp <- data.frame(
+          Indkobsliste = input$basis_varer_manuel,
+          maengde = input$antal_basis_varer_manuel,
+          enhed = input$enhed_basis_varer_manuel,
+          kat_1 =  input$add_kat_1,
+          kat_2 = input$add_kat_2
+        )
+        
+        rv$df <- bind_rows(varer_manuel_tmp, rv$df)
+      # }
+      
+    })
+    
+    
     # binder hele indkøbslisten
     observe({
         
