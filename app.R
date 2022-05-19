@@ -300,7 +300,9 @@ server <- function(input, output) {
                        add_links(links) %>% 
                        bind_rows()
         
-        indkob <- bind_rows(indkob, uge_overblik_df, ingr_pr_ret)
+        indkob <- bind_rows(indkob, 
+                            #uge_overblik_df, # fjerner ugedage da det ikke bruges
+                            ingr_pr_ret)
         
         names(indkob) <- "Indk\u00F8bsliste"
         

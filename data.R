@@ -11,7 +11,7 @@ retter <- tibble::tribble(
   "Dahl", "dahl_opskr", "vegetar",
   "Madpandekager", "madpandekager_opskr", "kylling", 
   "Ravioli", "ravioli_opskr", "vegetar",
-  "Bacon kyllinge t\u00E6rte", "bacon_kylling_taerte_opskr", "gris",
+  #"Bacon kyllinge t\u00E6rte", "bacon_kylling_taerte_opskr", "gris",
   "Kyllingebowl", "kyllingebowl_opskr", "kylling",
   "Lasagne", "lasagne_opskr", "kylling",
   "Kalkunschnitzel", "kalkunschnitzel_opskr", "kalkun",
@@ -23,7 +23,7 @@ retter <- tibble::tribble(
   "Kylling kiev", "kylling_kiev_opskr", "kylling",
   "Pitabr\u00F8d", "pitabrod_opskr", "vegetar|kylling|gris",
   "Pulled chicken", "pulledchicken_opskr", "kylling",
-  "Pulled pork", "pulledpork_opskr", "gris",
+  #"Pulled pork", "pulledpork_opskr", "gris",
   "Gullasch", "gullasch_opskr", "okse",
   "Chicken Tikka Masala", "chickentikka_opskr", "kylling",
   "Fyldte peberfrugter", "fyldtepeberfrugter_opskr", "okse"
@@ -85,7 +85,7 @@ burger_opskr <- tibble::tribble(
   ~"Burger", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "hakket oksek\u00F8d", 0.175, "kg", "k\u00F8d", "",
   "bacon i skiver", 50, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
-  "brioche bolle", 1, "stk", "br\u00F8d", "",
+  "brioche bolle", 1, "stk", "konserves", "br\u00F8d",
   "agurk", 0.2, "stk", "frugt_gr\u00F8nt", "",
   "iceberg", 0.1, "stk", "frugt_gr\u00F8nt", "",
   "toastost", 2, "skiver", "mejeri", "ost",
@@ -112,7 +112,7 @@ frikadeller_opskr <- tibble::tribble(
 dahl_opskr <- tibble::tribble(
   ~"Dahl", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "hvidl\u00F8g", 1.25, "stk", "frugt_gr\u00F8nt", "",
-  "ingef\u00E6r", 0.5, "stk", "frugt_gr\u00F8nt", "",
+  "ingef\u00E6r", 30, "gram", "frugt_gr\u00F8nt", "",
   "karry (tilsmagning)", NA, "", "konserves", "krydderi",
   "spidskommen (tilsmagning)", NA, "", "konserves", "krydderi",
   "koriander (tilsmagning)", NA, "", "konserves", "krydderi",
@@ -123,7 +123,7 @@ dahl_opskr <- tibble::tribble(
   "hakkede tomater", 0.5, "d\u00E5se(r)",  "konserves", "tomat",
   "yoghurt naturel", 0.5, "dl", "mejeri", "m\u00E6lk",
   "agurk", 0.13, "stk", "frugt_gr\u00F8nt", "",
-  "naanbr\u00F8d", 1, "stk", "br\u00F8d", "",
+  "naanbr\u00F8d", 1, "stk", "konserves", "br\u00F8d",
   "peanuts", 0.5, "pose(r)", "konserves", "chips"
 )
 
@@ -152,7 +152,7 @@ pulledchicken_opskr <- tibble::tribble(
   ~"Pulled chicken", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "pulled chicken", 0.5, "stk", "k\u00F8d", "p\u00E5l\u00E6g",
   "coleslaw", 0.33, "stk", "frugt_gr\u00F8nt", "",
-  "brioche bolle", 1, "stk", "br\u00F8d", "",
+  "brioche bolle", 1, "stk", "konserves", "br\u00F8d",
   "mayonnaise (tilbeh\u00F8r)", NA, "", "konserves", "dressing"
 )
 # pulled pork ----
@@ -160,7 +160,7 @@ pulledpork_opskr <- tibble::tribble(
   ~"Pulled pork", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "pulled pork", 0.5, "stk", "k\u00F8d", "p\u00E5l\u00E6g",
   "coleslaw", 0.33, "stk", "frugt_gr\u00F8nt", "",
-  "brioche bolle", 1, "stk", "br\u00F8d", "",
+  "brioche bolle", 1, "stk", "konserves", "br\u00F8d",
   "mayonnaise (tilbeh\u00F8r)", NA, "", "konserves", "dressing"
 )
 # gullasch ----
@@ -183,7 +183,7 @@ chickentikka_opskr <- tibble::tribble(
   ~"Chicken Tikka Masala", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "gr\u00E6sk yoghurt", 50, "gram", "mejeri", "m\u00E6lk",
   "hvidl\u00F8g", 1.5, "stk", "frugt_gr\u00F8nt", "",
-  "frisk ingef\u00E6r", 40, "gram", "frugt_gr\u00F8nt", "",
+  "ingef\u00E6r", 40, "gram", "frugt_gr\u00F8nt", "",
   "garam masala (tilsmagning)", NA, "", "konserves", "krydderi",
   "gurkemeje (tilsmagning)", NA, "", "konserves", "krydderi",
   "chiliflager (tilsmagning)", NA, "", "konserves", "krydderi",
@@ -239,7 +239,7 @@ kyllingebowl_opskr <- tibble::tribble(
 lasagne_opskr <- tibble::tribble(
   ~"Lasagne", ~"maengde", ~"enhed",  ~"kat_1", ~"kat_2",
   "kylling", 150, "gram", "k\u00F8d", "",
-  "hakkede tomater", 100, "gram", "konserves", "tomas",
+  "hakkede tomater", 0.25, "d\u00E5se(r)", "konserves", "tomat",
   "l\u00F8g", 0.25, "stk", "frugt_gr\u00F8nt", "",
   "piskefl\u00F8de", 0.63, "dl", "mejeri", "m\u00E6lk",
   "guler\u00F8dder", 50, "gram", "frugt_gr\u00F8nt", "",
@@ -319,7 +319,7 @@ kartoffel_porre_suppe_opskr <- tibble::tribble(
   "h\u00F8nsefondbouillon", 2, "stk", "konserves", "krydderi",
   "piskefl\u00F8de", 0.25, "dl", "mejeri", "m\u00E6lk",
   "bacon i skiver", 37.5, "gram", "k\u00F8d", "p\u00E5l\u00E6g",
-  "br\u00F8d (tilbeh\u00F8r)", NA, "", "br\u00F8d", "",
+  "br\u00F8d (tilbeh\u00F8r)", NA, "", "konserves", "br\u00F8d",
 )
 
 # kylling kiev ----
@@ -480,14 +480,14 @@ varer <- tibble::tribble(
   "sm\u00F8r", 1, "stk", "mejeri", "",
   "libero str. 4", 1, "stk", "baby", "",
   "babypads", 1, "stk", "baby", "",
-  "rugbr\u00F8d", 1, "pakke(r)", "br\u00F8d", "",
+  "rugbr\u00F8d", 1, "pakke(r)", "konserves", "br\u00F8d",
   "\u00E6blejuice", 1, "liter", "konserves", "juice",
   "appelsinjuice", 1, "liter", "konserves", "juice",
   "multijuice", 1, "liter", "konserves", "juice",
   "brie", 1, "stk", "mejeri", "ost",
   "leverpostej", 1, "pakke(r)", "k\u00F8d", "p\u00E5l\u00F8g",
   "\u00E6ggesalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
-  "m\u00F8rk p\u00E5l\u00F8gschokolade", 1, "pakke(r)", "konserves", "",
+  "m\u00F8rk p\u00E5l\u00E6gschokolade", 1, "pakke(r)", "konserves", "",
   "kn\u00E6kbr\u00F8d wasa sport", 1, "pakke(r)", "konserves", "",
   "bananer", 1, "stk", "frugt_gr\u00F8nt", "",
   "\u00E6bler", 1, "pose(r)", "frugt_gr\u00F8nt", "",
