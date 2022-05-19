@@ -287,7 +287,6 @@ server <- function(input, output) {
 
     observeEvent(input$add_varer_manuel, {
       
-      # if (input$basis_varer != "V\u00E6lg vare") {
         varer_manuel_tmp <- data.frame(
           Indkobsliste = input$basis_varer_manuel,
           maengde = input$antal_basis_varer_manuel,
@@ -297,8 +296,7 @@ server <- function(input, output) {
         )
         
         rv$df <- bind_rows(varer_manuel_tmp, rv$df)
-      # }
-      
+
     })
     
     
