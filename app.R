@@ -303,7 +303,7 @@ server <- function(input, output) {
     # binder hele indkøbslisten
     observe({
         
-      if (length(rv$df) > 0) {
+      if (length(rv$df) > 0 & length(ret_all()) > 0) {
         
         indkob <- rv$df
         
@@ -355,7 +355,7 @@ server <- function(input, output) {
        }
     })
     
-    # mulighed fir at slette række
+    # mulighed for at slette række
     observeEvent(input$deletePressed, {
       rowNum <- parseDeleteEvent(input$deletePressed)
       indkobsseddel$data <- indkobsseddel$data[-rowNum,]
@@ -396,7 +396,6 @@ server <- function(input, output) {
                        columnDefs = list(
                          list(targets = 1, sortable = FALSE))
                     ))
-      
       
     })
     
