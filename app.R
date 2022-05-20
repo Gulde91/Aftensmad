@@ -355,17 +355,17 @@ server <- function(input, output) {
        }
     })
     
+    # konstruerer "slet-knap" kolonne
+    deleteCol <- reactive({
+      if (!is.null(indkobsseddel$data)) {
+        unlist(lapply(seq_len(nrow(indkobsseddel$data)), add_slet_knap))  
+      }
+    })
+    
     # mulighed for at slette række
     observeEvent(input$deletePressed, {
       rowNum <- parseDeleteEvent(input$deletePressed)
       indkobsseddel$data <- indkobsseddel$data[-rowNum,]
-    })
-    
-    # konstruerer "slet-knap" kolonne
-    deleteCol <- reactive({
-      if (!is.null(indkobsseddel$data)) {
-        unlist(lapply(seq_len(nrow(indkobsseddel$data)), f))  
-      }
     })
 
     # final data table output
@@ -396,7 +396,6 @@ server <- function(input, output) {
                        columnDefs = list(
                          list(targets = 1, sortable = FALSE))
                     ))
-      
     })
     
 }

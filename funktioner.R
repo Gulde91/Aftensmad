@@ -58,7 +58,7 @@ parseDeleteEvent <- function(idstr) {
   if (!is.na(res)) res
 }
 
-f <- function(i) {
+add_slet_knap <- function(i) {
   as.character(
     actionButton(
       # The id prefix with index
