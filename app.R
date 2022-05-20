@@ -9,6 +9,7 @@ library(purrr)
 source("./data.R")
 source("./funktioner.R")
 
+
 # Define UI for application that draws a histogram ----
 ui <- fluidPage(
 
