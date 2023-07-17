@@ -131,7 +131,11 @@ ui <- fluidPage(
                     ),
                     tabPanel("Indk\u00F8bsliste",
                              br(),
-                             box(width = 6, DT::dataTableOutput("indkobsseddel")),
+                             box(width = 6, DT::dataTableOutput("indkobsseddel"),
+                                 br(),
+                                 actionButton("gem_indkobsseddel", "Gem indkøbsseddel", 
+                                              class = "btn-primary")
+                                 ),
                              box(width = 6,
                              # liste med basisvarer
                              div(style = "display: inline-block;vertical-align:top; width: 200px;",
@@ -433,6 +437,15 @@ server <- function(session, input, output) {
                        columnDefs = list(
                          list(targets = 1, sortable = FALSE))
                     ))
+    })
+    
+    # gemmer indkøbsseddel
+    observeEvent(input$gem_indkobsseddel, {
+      
+      df <- indkobsseddel$data
+      path <- paste0("./indkobssedler/indkobsseddel_", gsub("-", "", Sys.Date()), ".rda")
+      save(df, file = path)
+      
     })
     
 }
