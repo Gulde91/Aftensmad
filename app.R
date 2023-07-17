@@ -140,7 +140,7 @@ ui <- fluidPage(
                              div(style = "display: inline-block;vertical-align:top; width: 60px;",
                                  numericInput("antal_basis_varer", "M\u00E6ngde", value = 1)),
                              div(style = "display: inline-block;vertical-align:top; width: 100px;",
-                                 selectInput("enhed_alle_varer", "Enhed", "", "stk")), # sort(unique(varer$enhed))
+                                 selectInput("enhed_alle_varer", "Enhed", "", "stk")),
                              div(style = "display: inline-block;vertical-align:top; 
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer", "Tilf\u00F8j", class = "btn-success")),
@@ -166,7 +166,7 @@ ui <- fluidPage(
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer_manuel", "Tilf\u00F8j", class = "btn-success")),
                              div(style = "display: inline-block;vertical-align:top;
-                                 margin-top: 25px; width: 50px;", # TODO add margin til anden knap
+                                 margin-top: 25px; margin-left: 5px; width: 50px;",
                                  actionButton("gem_vare", "Gem", class = "btn-primary")),
                              hr(style="border-color:grey;"),
                              # guide
