@@ -166,7 +166,7 @@ ui <- fluidPage(
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer_manuel", "Tilf\u00F8j", class = "btn-success")),
                              div(style = "display: inline-block;vertical-align:top;
-                                 margin-top: 25px; width: 50px;",
+                                 margin-top: 25px; width: 50px;", # TODO add margin til anden knap
                                  actionButton("gem_vare", "Gem", class = "btn-primary")),
                              hr(style="border-color:grey;"),
                              # guide
@@ -318,6 +318,24 @@ server <- function(session, input, output) {
 
     })
     
+    # gør det muligt at gemme manuelt indtastede vare til basisliste
+    observeEvent(input$gem_vare, {
+      
+      varer_manuel_tmp <- data.frame(
+        Indkobsliste = input$basis_varer_manuel,
+        maengde = input$antal_basis_varer_manuel,
+        enhed = input$enhed_basis_varer_manuel,
+        kat_1 =  input$add_kat_1,
+        kat_2 = input$add_kat_2
+      )
+      
+      varer_custom_new <- bind_rows(varer_custom, varer_manuel_tmp)
+      write.csv(varer_custom_new, file = "./basis_varer.txt", 
+                row.names = FALSE,
+                fileEncoding = "UTF-8")
+      message(input$basis_varer_manuel, " er nu gemt i basis_varer.txt")
+      
+    })
     
     # binder hele indkøbslisten
     observe({
