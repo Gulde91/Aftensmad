@@ -495,43 +495,6 @@ salater_opskrifter <- list(
 )
 
 # basis varer ----
-# varer_custom <- tibble::tribble(
-#   ~"Indkobsliste", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-#   "skummetm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
-#   "s\u00F8dm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
-#   "letm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
-#   "babypads", 1, "stk", "baby", "",
-#   "rugbr\u00F8d", 1, "pakke(r)", "konserves", "br\u00F8d",
-#   "\u00E6blejuice", 1, "liter", "konserves", "juice",
-#   "appelsinjuice", 1, "liter", "konserves", "juice",
-#   "multijuice", 1, "liter", "konserves", "juice",
-#   "brie", 1, "stk", "mejeri", "ost",
-#   "leverpostej", 1, "pakke(r)", "k\u00F8d", "p\u00E5l\u00F8g",
-#   "\u00E6ggesalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
-#   "m\u00F8rk p\u00E5l\u00E6gschokolade", 1, "pakke(r)", "konserves", "",
-#   "kn\u00E6kbr\u00F8d wasa sport", 1, "pakke(r)", "konserves", "",
-#   "bananer", 1, "stk", "frugt og gr\u00F8nt", "",
-#   "kartofler", 1, "kg", "frugt og gr\u00F8nt", "",
-#   "skyr", 1, "kg", "mejeri", "",
-#   "m\u00FCsli fra kornkammeret (med appelsinknas)", 1, "pakke(r)", "konserves", "",
-#   "k\u00F8kkenrulle", 1, "pakke", "husholdning", "",
-#   "toiletpapir", 1, "pakke", "husholdning", "",
-#   "bagepapir", 1, "stk", "husholdning", "",
-#   "husholdningsfilm", 1, "stk", "husholdning", "",
-#   "fryseposer 4L", 1, "stk", "husholdning", "",
-#   "fryseposer 8L", 1, "stk", "husholdning", "",
-#   "skraldeposer 30L", 1, "stk", "husholdning", "",
-#   "s\u00F8lvpapir", 1, "stk", "husholdning", "",
-#   "opvaskemiddel", 1, "stk", "husholdning", "",
-#   "h\u00E5nds\u00E6be", 1, "stk", "husholdning", "",
-#   "flydende margarine", 1, "stk", "konserves", "",
-#   "farvet flydende vaskemiddel", 1, "stk", "husholdning", "",
-#   "hvid flydende vaskemiddel", 1, "stk", "husholdning", "",
-#   "tunsalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
-#   "roastbeef", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
-#   "ciabatta boller", 1, "pose(r)", "konserves", "br\u00F8d"
-# )
-
 varer_custom <- read.csv("~/Data Science/Aftensmad/basis_varer.txt", fileEncoding = "UTF-8")
 
 varer <- c(opskrifter, salater_opskrifter) |> 
