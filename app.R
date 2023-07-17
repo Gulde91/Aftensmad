@@ -134,11 +134,13 @@ ui <- fluidPage(
                              box(width = 6, DT::dataTableOutput("indkobsseddel")),
                              box(width = 6,
                              # liste med basisvarer
-                             div(style = "display: inline-block;vertical-align:top; width: 300px;",
+                             div(style = "display: inline-block;vertical-align:top; width: 200px;",
                                  selectInput("basis_varer", "Tilf\u00F8j varer fra liste", 
-                                             sort(varer$Indkobsliste))),
+                                             sort(varer$Indkobsliste))),  
                              div(style = "display: inline-block;vertical-align:top; width: 60px;",
-                                 numericInput("antal_basis_varer", "Antal", value = 1)),
+                                 numericInput("antal_basis_varer", "M\u00E6ngde", value = 1)),
+                             div(style = "display: inline-block;vertical-align:top; width: 100px;",
+                                 selectInput("enhed_alle_varer", "Enhed", "", "stk")), # sort(unique(varer$enhed))
                              div(style = "display: inline-block;vertical-align:top; 
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer", "Tilf\u00F8j", class = "btn-success")),
@@ -163,12 +165,15 @@ ui <- fluidPage(
                              div(style = "display: inline-block;vertical-align:top; 
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer_manuel", "Tilf\u00F8j", class = "btn-success")),
+                             div(style = "display: inline-block;vertical-align:top;
+                                 margin-top: 25px; width: 50px;",
+                                 actionButton("gem_vare", "Gem", class = "btn-primary")),
                              hr(style="border-color:grey;"),
                              # guide
                              h5(strong("Guide til at redigere indk\u00F8bslisten:")),
                              h6("1) Tilf\u00F8j varer"),
                              h6("2) Fjern/slet varer"),
-                             h6("3) Rediger m\u00E6ngder"),
+                             h6("3) Rediger m\u00E6ngder")
                              )
                              
                              )
@@ -178,8 +183,10 @@ ui <- fluidPage(
     )
 )
 
+
+
 # Define server logic required to draw a histogram ----
-server <- function(input, output) {
+server <- function(session, input, output) {
 
     # word cloud plot ----
     output$wordcloud_retter <- renderWordcloud2({
@@ -279,12 +286,24 @@ server <- function(input, output) {
       if (input$basis_varer != "V\u00E6lg vare") {
         varer_tmp <- varer[varer$Indkobsliste == input$basis_varer, ]
         varer_tmp$maengde <- varer_tmp$maengde * input$antal_basis_varer
-
+        varer_tmp$enhed <- input$enhed_alle_varer
+        
         rv$df <- bind_rows(varer_tmp, rv$df)
       }
 
     })
 
+    observe({ # viser enhed på valgt vare
+      
+      updateSelectInput(
+        session = session,
+        inputId = "enhed_alle_varer",
+        choices = sort(setdiff(unique(varer$enhed), "")),
+        selected = varer[varer$Indkobsliste == input$basis_varer, ]$enhed
+        )
+    })
+    
+    
     observeEvent(input$add_varer_manuel, {
       
         varer_manuel_tmp <- data.frame(
@@ -310,7 +329,7 @@ server <- function(input, output) {
         # summerer indkøb
         indkob <- indkob %>% 
           group_by(Indkobsliste, enhed, kat_1, kat_2) %>% 
-          summarise(maengde = sum(maengde), .groups = "drop") %>% 
+          summarise(maengde = sum(maengde, na.rm = TRUE), .groups = "drop") %>% 
           arrange(kat_1, kat_2)
         
         # runder op

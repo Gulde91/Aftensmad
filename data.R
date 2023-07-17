@@ -73,7 +73,7 @@ pizza_opskr <- tibble::tribble(
   "tipo 00 mel", 125, "gram", "konserves", "mel",
   "durummel", 25, "gram", "konserves", "mel",
   "l\u00F8g", 0.25, "stk", "frugt og gr\u00F8nt", "",
-  "hvidl\u00F8g", 1, "stk", "frugt og gr\u00F8nt", "",
+  "hvidl\u00F8gsfed", 1, "stk", "frugt og gr\u00F8nt", "",
   "hvidvinseddike", 1, "spsk", "konserves", "",
   "tomatpure", 100, "gram", "konserves", "tomat",
   "hakkede tomater", 0.5, "d\u00E5se(r)", "konserves", "tomat",
@@ -112,7 +112,7 @@ frikadeller_opskr <- tibble::tribble(
 # dahl ----
 dahl_opskr <- tibble::tribble(
   ~"Dahl", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "hvidl\u00F8g", 1.25, "stk", "frugt og gr\u00F8nt", "",
+  "hvidl\u00F8gsfed", 1.25, "stk", "frugt og gr\u00F8nt", "",
   "ingef\u00E6r", 30, "gram", "frugt og gr\u00F8nt", "",
   "karry (tilsmagning)", NA, "", "konserves", "krydderi",
   "spidskommen (tilsmagning)", NA, "", "konserves", "krydderi",
@@ -168,7 +168,7 @@ pulledpork_opskr <- tibble::tribble(
 gullasch_opskr <- tibble::tribble(
   ~"Gullasch", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "l\u00F8g", 0.5, "stk", "frugt og gr\u00F8nt", "",
-  "hvidl\u00F8g", 0.25, "stk", "frugt og gr\u00F8nt", "",
+  "hvidl\u00F8gsfed", 0.25, "stk", "frugt og gr\u00F8nt", "",
   "kartofler", 0.25, "kg", "frugt og gr\u00F8nt", "",
   "guler\u00F8dder", 25, "gram", "frugt og gr\u00F8nt", "",
   "oksebov", 125, "gram", "k\u00F8l", "",
@@ -183,7 +183,7 @@ gullasch_opskr <- tibble::tribble(
 chickentikka_opskr <- tibble::tribble(
   ~"Chicken Tikka Masala", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "gr\u00E6sk yoghurt", 50, "gram", "mejeri", "m\u00E6lk",
-  "hvidl\u00F8g", 1.5, "stk", "frugt og gr\u00F8nt", "",
+  "hvidl\u00F8gsfed", 1.5, "stk", "frugt og gr\u00F8nt", "",
   "ingef\u00E6r", 40, "gram", "frugt og gr\u00F8nt", "",
   "garam masala (tilsmagning)", NA, "", "konserves", "krydderi",
   "gurkemeje (tilsmagning)", NA, "", "konserves", "krydderi",
@@ -194,7 +194,7 @@ chickentikka_opskr <- tibble::tribble(
   "l\u00F8g", 0.5, "stk", "frugt og gr\u00F8nt", "",
   "tomatpure", 20, "gram", "konserves", "tomat",
   "piskefl\u00F8de", 0.5, "dl", "mejeri", "m\u00E6lk",
-  "ris", 50, "gram", "konserves", ""
+  "basmatiris", 50, "gram", "konserves", ""
 )
 # fyldte peberfrugter ----
 fyldtepeberfrugter_opskr <- tibble::tribble(
@@ -206,7 +206,7 @@ fyldtepeberfrugter_opskr <- tibble::tribble(
   "tomatpure", 18, "gram", "konserves", "tomat",
   "hakket oksek\u00F8d", 0.09, "kg", "k\u00F8d", "",
   "revet cheddar", 15, "gram", "mejeri", "ost",
-  "ris", 35, "gram", "konserves", ""
+  "basmatiris", 35, "gram", "konserves", ""
 )
 # bacon kyllinge tærte ----
 bacon_kylling_taerte_opskr <- tibble::tribble(
@@ -285,7 +285,7 @@ chili_con_carne_opskr <- tibble::tribble(
   "spidskommen (tilsmagning)", NA, "", "konserves", "krydderi",
   "kanel (tilsmagning)", NA, "", "konserves", "krydderi",
   "chiliflager", NA, "tsk", "konserves", "krydderi",
-  "hvidl\u00F8g", 0.5, "stk", "frugt og gr\u00F8nt", "",
+  "hvidl\u00F8gsfed", 0.5, "stk", "frugt og gr\u00F8nt", "",
   "l\u00F8g", 0.5, "stk", "frugt og gr\u00F8nt", "",
   "hakket oksek\u00F8d", 0.0875, "kg", "k\u00F8d", "",
   "hakkede tomater", 0.25, "d\u00E5se(r)", "konserves", "tomat",
@@ -295,7 +295,7 @@ chili_con_carne_opskr <- tibble::tribble(
   "m\u00F8rk chokolade", 10, "gram", "slik", "",
   "olivenolie", NA, "spsk", "konserves", "",
   "nachos", 31.25, "gram", "chips", "",
-  "ris", 0.50, "gram", "konserves", "",
+  "basmatiris", 0.50, "gram", "konserves", "",
   "creme fraiche", 0.5, "dl", "mejeri", "m\u00E6lk"
 )
 
@@ -495,42 +495,45 @@ salater_opskrifter <- list(
 )
 
 # basis varer ----
-varer_custom <- tibble::tribble(
-  ~"Indkobsliste", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
-  "skummetm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
-  "s\u00F8dm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
-  "letm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
-  "babypads", 1, "stk", "baby", "",
-  "rugbr\u00F8d", 1, "pakke(r)", "konserves", "br\u00F8d",
-  "\u00E6blejuice", 1, "liter", "konserves", "juice",
-  "appelsinjuice", 1, "liter", "konserves", "juice",
-  "multijuice", 1, "liter", "konserves", "juice",
-  "brie", 1, "stk", "mejeri", "ost",
-  "leverpostej", 1, "pakke(r)", "k\u00F8d", "p\u00E5l\u00F8g",
-  "\u00E6ggesalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
-  "m\u00F8rk p\u00E5l\u00E6gschokolade", 1, "pakke(r)", "konserves", "",
-  "kn\u00E6kbr\u00F8d wasa sport", 1, "pakke(r)", "konserves", "",
-  "bananer", 1, "stk", "frugt og gr\u00F8nt", "",
-  "kartofler", 1, "kg", "frugt og gr\u00F8nt", "",
-  "skyr", 1, "kg", "mejeri", "",
-  "m\u00FCsli fra kornkammeret (med appelsinknas)", 1, "pakke(r)", "konserves", "",
-  "k\u00F8kkenrulle", 1, "pakke", "husholdning", "",
-  "toiletpapir", 1, "pakke", "husholdning", "",
-  "bagepapir", 1, "stk", "husholdning", "",
-  "husholdningsfilm", 1, "stk", "husholdning", "",
-  "fryseposer 4L", 1, "stk", "husholdning", "",
-  "fryseposer 8L", 1, "stk", "husholdning", "",
-  "skraldeposer 30L", 1, "stk", "husholdning", "",
-  "s\u00F8lvpapir", 1, "stk", "husholdning", "",
-  "opvaskemiddel", 1, "stk", "husholdning", "",
-  "h\u00E5nds\u00E6be", 1, "stk", "husholdning", "",
-  "flydende margarine", 1, "stk", "konserves", "",
-  "farvet flydende vaskemiddel", 1, "stk", "husholdning", "",
-  "hvid flydende vaskemiddel", 1, "stk", "husholdning", "",
-  "tunsalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
-  "roastbeef", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
-  "ciabatta boller", 1, "pose(r)", "konserves", "br\u00F8d"
-)
+# varer_custom <- tibble::tribble(
+#   ~"Indkobsliste", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
+#   "skummetm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
+#   "s\u00F8dm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
+#   "letm\u00E6lk", 1, "liter", "mejeri", "m\u00E6lk",
+#   "babypads", 1, "stk", "baby", "",
+#   "rugbr\u00F8d", 1, "pakke(r)", "konserves", "br\u00F8d",
+#   "\u00E6blejuice", 1, "liter", "konserves", "juice",
+#   "appelsinjuice", 1, "liter", "konserves", "juice",
+#   "multijuice", 1, "liter", "konserves", "juice",
+#   "brie", 1, "stk", "mejeri", "ost",
+#   "leverpostej", 1, "pakke(r)", "k\u00F8d", "p\u00E5l\u00F8g",
+#   "\u00E6ggesalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
+#   "m\u00F8rk p\u00E5l\u00E6gschokolade", 1, "pakke(r)", "konserves", "",
+#   "kn\u00E6kbr\u00F8d wasa sport", 1, "pakke(r)", "konserves", "",
+#   "bananer", 1, "stk", "frugt og gr\u00F8nt", "",
+#   "kartofler", 1, "kg", "frugt og gr\u00F8nt", "",
+#   "skyr", 1, "kg", "mejeri", "",
+#   "m\u00FCsli fra kornkammeret (med appelsinknas)", 1, "pakke(r)", "konserves", "",
+#   "k\u00F8kkenrulle", 1, "pakke", "husholdning", "",
+#   "toiletpapir", 1, "pakke", "husholdning", "",
+#   "bagepapir", 1, "stk", "husholdning", "",
+#   "husholdningsfilm", 1, "stk", "husholdning", "",
+#   "fryseposer 4L", 1, "stk", "husholdning", "",
+#   "fryseposer 8L", 1, "stk", "husholdning", "",
+#   "skraldeposer 30L", 1, "stk", "husholdning", "",
+#   "s\u00F8lvpapir", 1, "stk", "husholdning", "",
+#   "opvaskemiddel", 1, "stk", "husholdning", "",
+#   "h\u00E5nds\u00E6be", 1, "stk", "husholdning", "",
+#   "flydende margarine", 1, "stk", "konserves", "",
+#   "farvet flydende vaskemiddel", 1, "stk", "husholdning", "",
+#   "hvid flydende vaskemiddel", 1, "stk", "husholdning", "",
+#   "tunsalat", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
+#   "roastbeef", 1, "pakke(r)", "p\u00E5l\u00F8g", "",
+#   "ciabatta boller", 1, "pose(r)", "konserves", "br\u00F8d"
+# )
+
+varer_custom <- read.csv("~/Data Science/Aftensmad/basis_varer.txt", 
+                         fileEncoding = "UTF-8")
 
 varer <- c(opskrifter, salater_opskrifter) |> 
   lapply(function(x) {names(x)[1] <- "Indkobsliste"; return(x)}) |> 
@@ -553,6 +556,7 @@ links <- tibble::tribble(
   "Br\u00E6ndende k\u00E6rlighed", "https://www.valdemarsro.dk/braendende-kaerlighed/",
   "Kartoffel-porre suppe", "https://madensverden.dk/kartoffel-porre-suppe/",
   "Kylling kiev", "https://www.hellofresh.dk/recipes/chicken-kiev-5efed5bde9cd8816990b92d6",
-  "Kyllingespyd", "https://martinys.dk/grill-kyllingespyd-med-barbeque-marinade/"
+  "Kyllingespyd", "https://martinys.dk/grill-kyllingespyd-med-barbeque-marinade/",
+  "Frikadeller", "https://www.dropbox.com/scl/fi/kq7ejsqpcoo83r9q1pgoh/Frikadeller.txt?rlkey=44yccp720l6k7r8qkcbtpbwf9&dl=0"
 )
 
