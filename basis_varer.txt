@@ -1,0 +1,34 @@
+Indkobsliste, maengde, enhed, kat_1, kat_2
+skummetmælk, 1, liter, mejeri, mælk
+sødmælk, 1, liter, mejeri, mælk
+letmælk, 1, liter, mejeri, mælk
+babypads, 1, stk, baby, 
+rugbrød, 1, pakke(r), konserves, brød
+æblejuice, 1, liter, konserves, juice
+appelsinjuice, 1, liter, konserves, juice
+multijuice, 1, liter, konserves, juice
+brie, 1, stk, mejeri, ost
+leverpostej, 1, pakke(r), kød, pålæg
+æggesalat, 1, pakke(r), pålæg, 
+mørk pålægschokolade, 1, pakke(r), konserves, 
+knækbrød wasa sport, 1, pakke(r), konserves,
+bananer, 1, stk, frugt og grønt,
+kartofler, 1, kg, frugt og grønt,
+skyr, 1, kg, mejeri,
+müsli fra kornkammeret (med appelsinknas), 1, pakke(r), konserves,
+køkkenrulle, 1, pakke, husholdning,
+toiletpapir, 1, pakke, husholdning,
+bagepapir, 1, stk, husholdning,
+husholdningsfilm, 1, stk, husholdning,
+fryseposer 4L, 1, stk, husholdning,
+fryseposer 8L, 1, stk, husholdning,
+skraldeposer 30L, 1, stk, husholdning,
+sølvpapir, 1, stk, husholdning,
+opvaskemiddel, 1, stk, husholdning,
+håndsæbe, 1, stk, husholdning,
+flydende margarine, 1, stk, konserves,
+farvet flydende vaskemiddel, 1, stk, husholdning,
+hvid flydende vaskemiddel, 1, stk, husholdning,
+tunsalat, 1, pakke(r), pålæg,
+roastbeef, 1, pakke(r), pålæg,
+ciabatta boller, 1, pose(r), konserves, brød
