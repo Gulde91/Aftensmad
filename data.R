@@ -532,8 +532,7 @@ salater_opskrifter <- list(
 #   "ciabatta boller", 1, "pose(r)", "konserves", "br\u00F8d"
 # )
 
-varer_custom <- read.csv("~/Data Science/Aftensmad/basis_varer.txt", 
-                         fileEncoding = "UTF-8")
+varer_custom <- read.csv("~/Data Science/Aftensmad/basis_varer.txt", fileEncoding = "UTF-8")
 
 varer <- c(opskrifter, salater_opskrifter) |> 
   lapply(function(x) {names(x)[1] <- "Indkobsliste"; return(x)}) |> 
