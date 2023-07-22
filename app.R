@@ -160,13 +160,9 @@ ui <- fluidPage(
                                              map_df(opskrifter, ~select(.x, enhed))$enhed |> 
                                                unique() |> sort())),
                              div(style = "display: inline-block;vertical-align:top; width: 130px;",
-                                 selectInput("add_kat_1", "Kategori 1", 
-                                             map_df(opskrifter, ~select(.x, kat_1))$kat_1 |> 
-                                               unique() |> sort(), "konserves")),
+                                 selectInput("add_kat_1", "Kategori 1", kategori_1, "konserves")),
                              div(style = "display: inline-block;vertical-align:top; width: 130px;",
-                                 selectInput("add_kat_2", "Kategori 2", 
-                                             map_df(opskrifter, ~select(.x, kat_2))$kat_2 |> 
-                                               unique() |> sort())),
+                                 selectInput("add_kat_2", "Kategori 2", kategori_2)),
                              div(style = "display: inline-block;vertical-align:top; 
                                  margin-top: 25px; width: 50px;",
                                  actionButton("add_varer_manuel", "Tilf\u00F8j", class = "btn-success")),

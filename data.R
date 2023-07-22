@@ -244,7 +244,7 @@ lasagne_opskr <- tibble::tribble(
   "l\u00F8g", 0.25, "stk", "frugt og gr\u00F8nt", "",
   "piskefl\u00F8de", 0.63, "dl", "mejeri", "m\u00E6lk",
   "guler\u00F8dder", 50, "gram", "frugt og gr\u00F8nt", "",
-  "r\u00F8d peberfrugt", 0.5, "stk", "frugt og gr\u00F8nt", "",
+  "r\u00F8d peber", 0.5, "stk", "frugt og gr\u00F8nt", "",
   "ketchup", NA, "", "konserves", "",
   "lasagneplader", 2.25, "stk", "konserves", "",
   "revet mozzarella", 50, "gram", "mejeri", "ost",
@@ -273,7 +273,7 @@ madpangekager_paa_panden_opskr <- tibble::tribble(
   ~"Madpangekager p\u00E5 panden", ~"maengde", ~"enhed", ~"kat_1", ~"kat_2",
   "l\u00F8g", 2, "stk", "frugt og gr\u00F8nt", "",
   "kylling", 0.15, "kg", "k\u00F8d", "",
-  "r\u00F8d peberfrugt", 0.75, "stk", "frugt og gr\u00F8nt", "",
+  "r\u00F8d peber", 0.75, "stk", "frugt og gr\u00F8nt", "",
   "revet mozzarella", 50, "gram", "mejeri", "ost",
   "madpandekager", 2, "stk", "konserves", "mexico",
   "salsa", 0.5, "d\u00E5se(r)", "konserves", "mexico"
@@ -521,4 +521,10 @@ links <- tibble::tribble(
   "Kyllingespyd", "https://martinys.dk/grill-kyllingespyd-med-barbeque-marinade/",
   "Frikadeller", "https://www.dropbox.com/scl/fi/kq7ejsqpcoo83r9q1pgoh/Frikadeller.txt?rlkey=44yccp720l6k7r8qkcbtpbwf9&dl=0"
 )
+
+
+
+# kategorier ----
+kategori_1 <- map_df(opskrifter, ~select(.x, kat_1))$kat_1 |> append("pakker") |> unique() |> sort()
+kategori_2 <- map_df(opskrifter, ~select(.x, kat_2))$kat_2 |> append(c("pakker", " ")) |> unique() |> sort()
 
