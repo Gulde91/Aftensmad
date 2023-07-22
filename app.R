@@ -9,6 +9,7 @@ library(purrr)
 source("./data.R")
 source("./funktioner.R")
 
+#indkob_retter <- data.frame()
 
 # Define UI for application that draws a histogram ----
 ui <- fluidPage(
@@ -273,15 +274,34 @@ server <- function(session, input, output) {
     })
 
     # binder alle ugens retter til én dataframe
-    observe({ 
-
+    # observe({ 
+    # 
+    #   if (length(ret_all()) > 0) {
+    #     
+    #     col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
+    #     indkob_retter <- lapply(ret_all(), setNames, col_names)
+    #     indkob_retter <- bind_rows(indkob_retter)
+    #     #rv$df <- indkob_retter #bind_rows(indkob_retter, rv$df)#indkob_retter 
+    #     # TODO denne skal ændres. Den vil altid overskrive input fra basis
+    #     # vare delen. Men hvordan skal det gøres?
+    #     # NB! Når det gøres med bind_rows, så kører den bare i et uendeligt loop!
+    #     # skal den gøres som reactive?    
+    #   }
+    # })
+    
+    indkob_retter <- reactive({
+      
+      indkob_retter <- data.frame()
+      
       if (length(ret_all()) > 0) {
-        
-        col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
-        indkob <- lapply(ret_all(), setNames, col_names)
-        indkob <- bind_rows(indkob)
-        rv$df <- indkob
-      }
+      
+      col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
+      indkob_retter <- lapply(ret_all(), setNames, col_names)
+      indkob_retter #<- bind_rows(indkob_retter)
+      } 
+      
+      indkob_retter
+      
     })
     
     # mulighed for at tilføje varer
@@ -343,10 +363,11 @@ server <- function(session, input, output) {
     
     # binder hele indkøbslisten
     observe({
+        print(length(rv$df))
+        print(nrow(indkob_retter()))
+      if (length(rv$df) > 0)) { # | nrow(indkob_retter) > 0 # & length(ret_all()) > 0
         
-      if (length(rv$df) > 0 & length(ret_all()) > 0) {
-        
-        indkob <- rv$df
+        indkob <- bind_rows(rv$df, indkob_retter())
         
         # summerer indkøb
         indkob <- indkob %>% 
@@ -364,6 +385,8 @@ server <- function(session, input, output) {
         indkob <- indkob[, "Indkobsliste"]
         
         # sætter ugedage
+        if (length(ret_all()) > 0) {
+        
         opskr_navne <- lapply(ret_all(), function(x) names(x)[1]) %>% unlist()
         uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
         uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
@@ -388,6 +411,7 @@ server <- function(session, input, output) {
         indkob <- bind_rows(indkob, 
                             #uge_overblik_df, # fjerner ugedage da det ikke bruges
                             ingr_pr_ret)
+        }
         
         names(indkob) <- "Indk\u00F8bsliste"
         
@@ -411,9 +435,12 @@ server <- function(session, input, output) {
 
     # final data table output
     output$indkobsseddel <- DT::renderDataTable(server = FALSE, {
+      print(indkobsseddel$data)
+      page_len <- ifelse(is.null(indkobsseddel$data), 1,
+                  ifelse(any(indkobsseddel$data[["Indk\u00F8bsliste"]] == "") ,
+                         which(indkobsseddel$data[["Indk\u00F8bsliste"]] == "")[1] - 1,
+                         nrow(indkobsseddel$data)))
 
-      page_len <- which(indkobsseddel$data[["Indk\u00F8bsliste"]] == "")[1] - 1
-      
       # Return a data table
       DT::datatable(cbind(indkobsseddel$data, delete = deleteCol()), 
                     rownames = NULL, colnames = NULL, extensions = 'Buttons',
