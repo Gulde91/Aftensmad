@@ -9,8 +9,6 @@ library(purrr)
 source("./data.R")
 source("./funktioner.R")
 
-#indkob_retter <- data.frame()
-
 # Define UI for application that draws a histogram ----
 ui <- fluidPage(
 
