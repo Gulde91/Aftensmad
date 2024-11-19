@@ -156,7 +156,7 @@ ui <- fluidPage(
                              div(style = "display: inline-block;vertical-align:top; width: 100px;",
                                  selectInput("enhed_basis_varer_manuel", "Enhed", 
                                              map_df(opskrifter, ~select(.x, enhed))$enhed |> 
-                                               unique() |> sort())),
+                                               append("pakke(r)") |> unique() |> sort())),
                              div(style = "display: inline-block;vertical-align:top; width: 130px;",
                                  selectInput("add_kat_1", "Kategori 1", kategori_1, "konserves")),
                              div(style = "display: inline-block;vertical-align:top; width: 130px;",
