@@ -267,22 +267,6 @@ server <- function(session, input, output) {
       ret_all
     })
 
-    # binder alle ugens retter til én dataframe
-    # observe({ 
-    # 
-    #   if (length(ret_all()) > 0) {
-    #     
-    #     col_names <- c("Indkobsliste", "maengde", "enhed", "kat_1", "kat_2")
-    #     indkob_retter <- lapply(ret_all(), setNames, col_names)
-    #     indkob_retter <- bind_rows(indkob_retter)
-    #     #rv$df <- indkob_retter #bind_rows(indkob_retter, rv$df)#indkob_retter 
-    #     # TODO denne skal ændres. Den vil altid overskrive input fra basis
-    #     # vare delen. Men hvordan skal det gøres?
-    #     # NB! Når det gøres med bind_rows, så kører den bare i et uendeligt loop!
-    #     # skal den gøres som reactive?    
-    #   }
-    # })
-    
     indkob_retter <- reactive({
       
       if (length(ret_all()) > 0) {
