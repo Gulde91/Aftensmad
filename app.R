@@ -4,7 +4,6 @@ library(DT)
 library(wordcloud2)
 library(dplyr)
 library(purrr)
-# kan man se det her?
 
 # henter retter og opskrifter
 source("./data.R")
