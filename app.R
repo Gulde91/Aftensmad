@@ -4,6 +4,7 @@ library(DT)
 library(wordcloud2)
 library(dplyr)
 library(purrr)
+# kan man se det her?
 
 # henter retter og opskrifter
 source("./data.R")
@@ -172,7 +173,13 @@ ui <- fluidPage(
                              h5(strong("Guide til at redigere indk\u00F8bslisten:")),
                              h6("1) Tilf\u00F8j varer"),
                              h6("2) Fjern/slet varer"),
-                             h6("3) Rediger m\u00E6ngder")
+                             h6("3) Rediger m\u00E6ngder"),
+                             hr(style="border-color:grey;"),
+                             # Forslag til manglende varer
+                             h5(strong("Forslag til manglende varer:")),
+                             tableOutput("tidl_kob")
+                             #DT::dataTableOutput("tidl_kob")
+                             
                              )
                              
                              )
@@ -187,6 +194,9 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram ----
 server <- function(session, input, output) {
 
+    # loader tidligere indkøbssedler
+    tidl_kob <- mest_brugte_varer(c(varer$enhed, varer_custom$enhed))
+  
     # word cloud plot ----
     output$wordcloud_retter <- renderWordcloud2({
 
@@ -365,10 +375,6 @@ server <- function(session, input, output) {
         # sætter ugedage
         if (length(ret_all()) > 0) {
         
-        #opskr_navne <- lapply(ret_all(), function(x) names(x)[1]) %>% unlist()
-        #uge_overblik <- paste(names(opskr_navne), opskr_navne, sep = ": ")
-        #uge_overblik_df <- data.frame(Indkobsliste = c("", uge_overblik))
-        
         # sætter opskrifter
         ingr_pr_ret <- map(ret_all(), ~mutate(.x, ret = names(.x)[1])) %>%
                        map(~rename(.x, "ingredienser" = names(.x)[1])) %>%
@@ -386,9 +392,7 @@ server <- function(session, input, output) {
                        add_links(links) %>% 
                        bind_rows()
         
-        indkob <- bind_rows(indkob, 
-                            #uge_overblik_df, # fjerner ugedage da det ikke bruges
-                            ingr_pr_ret)
+        indkob <- bind_rows(indkob, ingr_pr_ret)
         }
         
         names(indkob) <- "Indk\u00F8bsliste"
@@ -410,6 +414,23 @@ server <- function(session, input, output) {
       rowNum <- parseDeleteEvent(input$deletePressed)
       indkobsseddel$data <- indkobsseddel$data[-rowNum,]
     })
+    
+    # finder forslag til mangler på listen
+    observe({
+      
+      if(!is.null(indkobsseddel$data)) {
+        paa_listen <- medtag_kun_varer(indkobsseddel$data)
+        paa_listen <- rens_varer(paa_listen$Indkøbsliste, c(varer$enhed, varer_custom$enhed))
+
+        tidl_kob_out <- tidl_kob[!tidl_kob$Indkøbsliste %in% paa_listen, ] |> slice(1:10)
+
+        output$tidl_kob <- renderTable(
+          tidl_kob_out,
+          colnames = FALSE
+          )
+       }
+
+    })
 
     # final data table output
     output$indkobsseddel <- DT::renderDataTable(server = FALSE, {
@@ -425,8 +446,8 @@ server <- function(session, input, output) {
                     # Need to disable escaping for html as string to work
                     escape = FALSE, 
                     editable = TRUE,
-                    options = list(
-                      dom = "B", ordering = FALSE, pageLength = page_len,
+                      options = list(
+                        dom = "B", ordering = FALSE, pageLength = page_len,
                       buttons = list(list(extend = 'copy', 
                                           title = NULL,
                                           exportOptions = list(columns = 0)
