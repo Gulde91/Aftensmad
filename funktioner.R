@@ -89,3 +89,64 @@ add_links <- function(retter, links) {
   return(retter)
   
 }
+
+
+mest_brugte_varer <- function(enheder) {
+  
+  files <- list.files("./indkobssedler/")
+  
+  varer <- lapply(files, find_varer) |> bind_rows()
+  
+  varer$Indkøbsliste <- sub("\\((tilsmagning|tilbehør)\\)", "", varer$Indkøbsliste)
+  varer$Indkøbsliste <- sub("\\d+\\.*\\d*", "", varer$Indkøbsliste, perl =TRUE)
+  
+  enhed <- setdiff(unique(enheder), "")
+  enhed <- paste0(enhed, collapse = "|")
+  enhed <- gsub("\\(", "\\\\(", enhed)
+  enhed <- gsub("\\)", "\\\\)", enhed)
+  
+  varer$Indkøbsliste <- sub(enhed, "", varer$Indkøbsliste, perl = T)
+  varer$Indkøbsliste <- trimws(varer$Indkøbsliste)
+  
+  out <- varer |> 
+    group_by(Indkøbsliste) |> 
+    summarise(count = n()) |> 
+    arrange(desc(count)) |> 
+    select(Indkøbsliste)
+  
+}
+
+find_varer <- function(x) {
+  
+  load(paste0("./indkobssedler/", x))
+  
+  medtag_kun_varer(df)
+}
+
+medtag_kun_varer <- function(x) {
+  
+  index <- which(x$Indkøbsliste == "")[1] - 1
+  
+  if (is.na(index)) {
+    index <- nrow(x)
+  }
+  
+  x[1:index, ]
+  
+}
+
+rens_varer <- function(varer, enheder) {
+  
+  varer <- sub("\\((tilsmagning|tilbehør)\\)", "", varer)
+  varer <- sub("\\d+\\.*\\d*", "", varer, perl = TRUE)
+  
+  enhed <- setdiff(unique(enheder), "")
+  enhed <- paste0(enhed, collapse = "|")
+  enhed <- gsub("\\(", "\\\\(", enhed)
+  enhed <- gsub("\\)", "\\\\)", enhed)
+  
+  varer <- sub(enhed, "", varer, perl = TRUE)
+  varer <- trimws(varer)
+  
+  varer
+}
