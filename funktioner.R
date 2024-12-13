@@ -1,4 +1,3 @@
-
 opskrift <- function(opskrifter, retter, salater, salater_opskrifter, tilbehor, 
                      dag_ret, dag_salat, antal, dag_tilbehor) {
   
@@ -149,4 +148,23 @@ rens_varer <- function(varer, enheder) {
   varer <- trimws(varer)
   
   varer
+}
+
+create_day_inputs <- function(day_prefix, day_name) {
+  tagList(
+    h4(strong(day_name)),
+    div(style = "display: inline-block;vertical-align:top; width: 200px;",
+        selectInput(paste0(day_prefix, "_ret"), "Ret", 
+                   choices = c("V\u00E6lg ret", retter$retter))),
+    div(style = "display: inline-block;vertical-align:top; width: 70px;",
+        numericInput(paste0(day_prefix, "_pers"), "Pers.", value = 2)),
+    div(style = "display: inline-block;vertical-align:top; width: 135px;",
+        selectInput(paste0(day_prefix, "_salat"), "Salat", 
+                   choices = c("", salater$retter))),
+    div(style = "display: inline-block;vertical-align:top; width: 135px;",
+        selectInput(paste0(day_prefix, "_tilbehor"), "Tilbeh\u00F8r", 
+                   choices = tilbehor$Indkobsliste,
+                   multiple = TRUE)),
+    hr()
+  )
 }

@@ -19,83 +19,13 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(width = 3,
             
-            h4(strong("Mandag")),
-            div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("man_ret", "Ret", choices = c("V\u00E6lg ret", retter$retter))),
-            div(style = "display: inline-block;vertical-align:top; width: 70px;",
-                numericInput("man_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("man_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
-                            choices = sort(tilbehor$Indkobsliste))
-                ),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("man_salat", "Salat", choices = sort(salater$retter))),
-            
-            h4(strong("Tirsdag")),
-            div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("tirs_ret", "Ret", choices = c("V\u00E6lg ret", retter$retter))),
-            div(style = "display: inline-block;vertical-align:top; width: 70px;",
-                numericInput("tirs_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("tirs_tilbehor", "Tilbeh\u00F8r", multiple = TRUE, 
-                            choices = sort(tilbehor$Indkobsliste))),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("tirs_salat", "Salat", choices = sort(salater$retter))),
-            
-            h4(strong("Onsdag")),
-            div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("ons_ret", "Ret", choices = c("V\u00E6lg ret", retter$retter))),
-            div(style = "display: inline-block;vertical-align:top; width: 70px;",
-                numericInput("ons_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("ons_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,  
-                            choices = sort(tilbehor$Indkobsliste))),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("ons_salat", "Salat", choices = sort(salater$retter))),
-            
-            h4(strong("Torsdag")),
-            div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("tors_ret", "Ret", choices = c("V\u00E6lg ret", retter$retter))),
-            div(style = "display: inline-block;vertical-align:top; width: 70px;",
-                numericInput("tors_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("tors_tilbehor", "Tilbeh\u00F8r", multiple = TRUE, 
-                            choices = sort(tilbehor$Indkobsliste))),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("tors_salat", "Salat", choices = sort(salater$retter))),
-            
-            h4(strong("Fredag")),
-            div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("fre_ret", "Ret", choices = c("V\u00E6lg ret", retter$retter))),
-            div(style = "display: inline-block;vertical-align:top; width: 70px;",
-                numericInput("fre_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("fre_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
-                            choices = sort(tilbehor$Indkobsliste))),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("fre_salat", "Salat", choices = sort(salater$retter))),
-            
-            h4(strong("L\u00F8rdag")),
-            div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("lor_ret", "Ret", choices = c("V\u00E6lg ret", retter$retter))),
-            div(style = "display: inline-block;vertical-align:top; width: 70px;",
-                numericInput("lor_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("lor_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
-                            choices = sort(tilbehor$Indkobsliste))),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("lor_salat", "Salat", choices = sort(salater$retter))),
-
-            h4(strong("S\u00F8ndag")),
-            div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                selectInput("son_ret", "Ret", choices = c("V\u00E6lg ret", retter$retter))),
-            div(style = "display: inline-block;vertical-align:top; width: 70px;",
-                numericInput("son_pers", "Pers.", value = 2)),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("son_tilbehor", "Tilbeh\u00F8r", multiple = TRUE,
-                            choices = sort(tilbehor$Indkobsliste))),
-            div(style = "display: inline-block;vertical-align:top; width: 135px;",
-                selectInput("son_salat", "Salat", choices = sort(salater$retter))),
+            create_day_inputs("man", "Mandag"),
+            create_day_inputs("tirs", "Tirsdag"),
+            create_day_inputs("ons", "Onsdag"),
+            create_day_inputs("tors", "Torsdag"),
+            create_day_inputs("fre", "Fredag"),
+            create_day_inputs("lor", "L\u00F8rdag"),
+            create_day_inputs("son", "S\u00F8ndag"),
             
             ),
 
@@ -475,7 +405,5 @@ server <- function(session, input, output) {
     
 }
 
-# Run the application 
+# Run the application
 shinyApp(ui = ui, server = server)
-
-
