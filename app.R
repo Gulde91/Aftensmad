@@ -329,7 +329,7 @@ server <- function(session, input, output) {
 
   # mulighed for at slette række
   observeEvent(input$deletePressed, {
-    rowNum <- parseDeleteEvent(input$deletePressed)
+    rowNum <- parse_delete_event(input$deletePressed)
     indkobsseddel$data <- indkobsseddel$data[-rowNum,]
   })
 
