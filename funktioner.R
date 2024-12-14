@@ -1,7 +1,6 @@
 opskrift <- function(opskrifter, retter, salater, salater_opskrifter, tilbehor, 
                      dag_ret, dag_salat, antal, dag_tilbehor) {
-  
-  
+
   if (dag_ret != "V\u00E6lg ret") {
     ret <- opskrifter[[retter$key[retter$retter == dag_ret]]]
     ret$maengde <- ret$maengde * antal
@@ -168,3 +167,5 @@ create_day_inputs <- function(day_prefix, day_name) {
     hr()
   )
 }
+
+
