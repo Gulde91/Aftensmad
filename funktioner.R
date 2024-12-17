@@ -97,7 +97,9 @@ add_slet_knap <- function(i) {
       paste("delete_button", i, sep = "_"),
       label = "Slet",
       icon = icon("calendar"),
-      onclick = 'Shiny.setInputValue(\"deletePressed\", this.id, {priority: "event"})'))
+      onclick = 'Shiny.setInputValue(\"deletePressed\", this.id, {priority: "event"})'
+    )
+  )
 }
 
 #' Add Links
