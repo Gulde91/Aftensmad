@@ -242,3 +242,21 @@ create_day_inputs <- function(day_prefix, day_name) {
     hr()
   )
 }
+
+#' Create Reactive Recipe
+#'
+#' Opretter en reaktiv opskrift baseret på en dags præfiks.
+#'
+#' @param day_prefix Præfiks for dagen (f.eks. "man" for mandag).
+#' @param input Shiny input objekt.
+#' @return En reaktiv funktion, der returnerer opskriften for den valgte dag.
+create_reactive_recipe <- function(day_prefix, input) {
+  reactive(
+    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
+      input[[paste0(day_prefix, "_ret")]],
+      input[[paste0(day_prefix, "_salat")]],
+      input[[paste0(day_prefix, "_pers")]],
+      input[[paste0(day_prefix, "_tilbehor")]]
+    )
+  )
+}

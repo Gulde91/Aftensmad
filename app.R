@@ -41,6 +41,12 @@ ui <- fluidPage(
             fluidRow(
               box(width = 3, title = "Mandag", status = "warning",
                   DT::dataTableOutput("dt_mandag")),
+              box(width = 3, title = "Tirsdag", status = "warning",
+                  DT::dataTableOutput("dt_tirsdag")),
+              box(width = 3, title = "Onsdag", status = "warning",
+                  DT::dataTableOutput("dt_onsdag")),
+              box(width = 3, title = "Torsdag", status = "warning",
+                  DT::dataTableOutput("dt_torsdag")),
             ),
             fluidRow(
               box(width = 3, title = "Fredag", status = "warning",
@@ -134,40 +140,14 @@ server <- function(session, input, output) {
   })
 
   # Opskrifter ----
-  ret_man <- reactive(
-    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
-             input$man_ret, input$man_salat, input$man_pers, input$man_tilbehor)
-  )
-
-  ret_tirs <- reactive(
-    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
-             input$tirs_ret, input$tirs_salat, input$tirs_pers, input$tirs_tilbehor)
-  )
-
-  ret_ons <- reactive(
-    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
-             input$ons_ret, input$ons_salat, input$ons_pers, input$ons_tilbehor)
-  )
-
-  ret_tors <- reactive(
-    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
-             input$tors_ret, input$tors_salat, input$tors_pers, input$tors_tilbehor)
-  )
-
-  ret_fre <- reactive(
-    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
-             input$fre_ret, input$fre_salat, input$fre_pers, input$fre_tilbehor)
-  )
-
-  ret_lor <- reactive(
-    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
-             input$lor_ret, input$lor_salat, input$lor_pers, input$lor_tilbehor)
-  )
-
-  ret_son <- reactive(
-    opskrift(opskrifter, retter, salater, salater_opskrifter, tilbehor,
-             input$son_ret, input$son_salat, input$son_pers, input$son_tilbehor)
-  )
+  # Use the general function for each day
+  ret_man <- create_reactive_recipe("man", input)
+  ret_tirs <- create_reactive_recipe("tirs", input)
+  ret_ons <- create_reactive_recipe("ons", input)
+  ret_tors <- create_reactive_recipe("tors", input)
+  ret_fre <- create_reactive_recipe("fre", input)
+  ret_lor <- create_reactive_recipe("lor", input)
+  ret_son <- create_reactive_recipe("son", input)
 
   output$dt_mandag <- renderDataTable(display_opskrift(ret_man()))
   output$dt_tirsdag <- renderDataTable(display_opskrift(ret_tirs()))
