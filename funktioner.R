@@ -17,14 +17,14 @@
 opskrift <- function(opskrifter, retter, salater, salater_opskrifter, tilbehor,
                      dag_ret, dag_salat, antal, dag_tilbehor) {
 
-  if (dag_ret != "V\u00E6lg ret") {
+  if (!is.null(dag_ret) && dag_ret != "V\u00E6lg ret" && dag_ret %in% retter$retter) {
     ret <- opskrifter[[retter$key[retter$retter == dag_ret]]]
     ret$maengde <- ret$maengde * antal
   } else {
     ret <- NULL
   }
 
-  if (!is.null(dag_tilbehor)) {
+  if (!is.null(dag_tilbehor) && length(dag_tilbehor) > 0) {
     tilbehor_all <- filter(tilbehor, Indkobsliste %in% dag_tilbehor)
     tilbehor_all$maengde <- tilbehor_all$maengde * antal / length(dag_tilbehor)
     tilbehor_all$maengde <- round(tilbehor_all$maengde, 4)
@@ -33,7 +33,7 @@ opskrift <- function(opskrifter, retter, salater, salater_opskrifter, tilbehor,
     tilbehor_all <- NULL
   }
 
-  if (dag_salat != "") {
+  if (!is.null(dag_salat) && dag_salat != "" && dag_salat %in% salater$retter) {
     salat <- salater_opskrifter[[salater$key[salater$retter == dag_salat]]]
     salat$maengde <- salat$maengde * antal
   } else {

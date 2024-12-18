@@ -10,78 +10,58 @@ source("./data.R")
 source("./funktioner.R")
 
 # Define UI for application that draws a histogram ----
-ui <- fluidPage(
-
-  # Application title
-  titlePanel("Planl\u00E6g aftensmad"),
-
-  # Sidebar with a slider input for number of bins
-  sidebarLayout(
-    sidebarPanel(width = 3,
-
-      create_day_inputs("man", "Mandag"),
-      create_day_inputs("tirs", "Tirsdag"),
-      create_day_inputs("ons", "Onsdag"),
-      create_day_inputs("tors", "Torsdag"),
-      create_day_inputs("fre", "Fredag"),
-      create_day_inputs("lor", "L\u00F8rdag"),
-      create_day_inputs("son", "S\u00F8ndag"),
-    ),
-
-    # Show a plot of the generated distribution
-    mainPanel(
-      fluidRow(
-        tabsetPanel(
-          tabPanel("Inspiration",
-            selectInput("menu_type", "V\u00E6lg type",
-                        c("Alle", "Vegetar", "Kylling", "Gris", "Okse")),
-            wordcloud2Output("wordcloud_retter")
-          ),
-          tabPanel("Opskrifter",
-            fluidRow(
-              box(width = 3, title = "Mandag", status = "warning",
-                  DT::dataTableOutput("dt_mandag")),
-              box(width = 3, title = "Tirsdag", status = "warning",
-                  DT::dataTableOutput("dt_tirsdag")),
-              box(width = 3, title = "Onsdag", status = "warning",
-                  DT::dataTableOutput("dt_onsdag")),
-              box(width = 3, title = "Torsdag", status = "warning",
-                  DT::dataTableOutput("dt_torsdag")),
-            ),
-            fluidRow(
-              box(width = 3, title = "Fredag", status = "warning",
-                  DT::dataTableOutput("dt_fredag")),
-              box(width = 3, title = "L\u00F8rdag", status = "warning",
-                  DT::dataTableOutput("dt_lordag")),
-              box(width = 3, title = "S\u00F8ndag", status = "warning",
-                  DT::dataTableOutput("dt_sondag"))
-            )
-          ),
-          tabPanel("Indk\u00F8bsliste",
-            br(),
-            box(width = 6, DT::dataTableOutput("indkobsseddel"),
+ui <- dashboardPage(
+  dashboardHeader(title = "Planlæg Aftensmad"),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Inspiration", tabName = "inspiration", icon = icon("lightbulb")),
+      menuItem("Opskrifter", tabName = "opskrifter", icon = icon("book")),
+      menuItem("Indkøbsliste", tabName = "indkobsliste", icon = icon("shopping-cart"))
+    )
+  ),
+  dashboardBody(
+    tabItems(
+      tabItem(tabName = "inspiration",
+        fluidRow(
+          box(title = "Vælg type", status = "primary", solidHeader = TRUE, width = 4,
+              selectInput("menu_type", "Vælg type",
+                          c("Alle", "Vegetar", "Kylling", "Gris", "Okse"))),
+          box(title = "Wordcloud", status = "primary", solidHeader = TRUE, width = 8,
+              wordcloud2Output("wordcloud_retter"))
+        )
+      ),
+      tabItem(tabName = "opskrifter",
+        fluidRow(
+          lapply(c("Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"), function(day) {
+            box(title = day, status = "warning", width = 3,
+                DT::dataTableOutput(paste0("dt_", tolower(day))))
+          })
+        )
+      ),
+      tabItem(tabName = "indkobsliste",
+        fluidRow(
+          box(title = "Indkøbsliste", status = "primary", solidHeader = TRUE, width = 6,
+              DT::dataTableOutput("indkobsseddel"),
               br(),
-              actionButton("gem_indkobsseddel", "Gem indkøbsseddel",
-                           class = "btn-primary")
-            ),
-            box(width = 6,
+              actionButton("gem_indkobsseddel", "Gem indkøbsseddel", class = "btn-primary")),
+          box(title = "Tilføj varer", status = "primary", solidHeader = TRUE, width = 6,
               # liste med basisvarer
               div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                  selectInput("basis_varer", "Tilf\u00F8j varer fra liste",
+                  selectInput("basis_varer", "Tilføj varer fra liste",
                               sort(varer$Indkobsliste))),
               div(style = "display: inline-block;vertical-align:top; width: 60px;",
-                  numericInput("antal_basis_varer", "M\u00E6ngde", value = 1)),
+                  numericInput("antal_basis_varer", "Mængde", value = 1)),
               div(style = "display: inline-block;vertical-align:top; width: 100px;",
                   selectInput("enhed_alle_varer", "Enhed", "", "stk")),
               div(style = "display: inline-block;vertical-align:top; 
                           margin-top: 25px; width: 50px;",
-                  actionButton("add_varer", "Tilf\u00F8j", class = "btn-success")),
+                  actionButton("add_varer", "Tilføj", class = "btn-success")),
               hr(style = "border-color:grey;"),
               # manuelt input
               div(style = "display: inline-block;vertical-align:top; width: 200px;",
-                  textInput("basis_varer_manuel", label = "Tilf\u00F8j varer manuelt")),
+                  textInput("basis_varer_manuel", label = "Tilføj varer manuelt")),
               div(style = "display: inline-block;vertical-align:top; width: 80px;",
-                  numericInput("antal_basis_varer_manuel", "M\u00E6ngde", value = 1)),
+                  numericInput("antal_basis_varer_manuel", "Mængde", value = 1)),
               div(style = "display: inline-block;vertical-align:top; width: 100px;",
                   selectInput("enhed_basis_varer_manuel", "Enhed",
                               map_df(opskrifter, ~select(.x, enhed))$enhed |>
@@ -92,21 +72,20 @@ ui <- fluidPage(
                   selectInput("add_kat_2", "Kategori 2", kategori_2)),
               div(style = "display: inline-block;vertical-align:top; 
                           margin-top: 25px; width: 50px;",
-                  actionButton("add_varer_manuel", "Tilf\u00F8j", class = "btn-success")),
+                  actionButton("add_varer_manuel", "Tilføj", class = "btn-success")),
               div(style = "display: inline-block;vertical-align:top;
                           margin-top: 25px; width: 50px;",
                   actionButton("gem_vare", "Gem", class = "btn-primary")),
               hr(style = "border-color:grey;"),
               # guide
-              h5(strong("Guide til at redigere indk\u00F8bslisten:")),
-              h6("1) Tilf\u00F8j varer"),
+              h5(strong("Guide til at redigere indkøbslisten:")),
+              h6("1) Tilføj varer"),
               h6("2) Fjern/slet varer"),
-              h6("3) Rediger m\u00E6ngder"),
+              h6("3) Rediger mængder"),
               hr(style = "border-color:grey;"),
               # Forslag til manglende varer
               h5(strong("Forslag til manglende varer:")),
               tableOutput("tidl_kob")
-            )
           )
         )
       )
@@ -114,10 +93,19 @@ ui <- fluidPage(
   )
 )
 
-
-
 # Define server logic required to draw a histogram ----
 server <- function(session, input, output) {
+
+  # Initialiser reaktive værdier
+  rv <- reactiveValues(df = NULL)
+  indkobsseddel <- reactiveValues(data = NULL)
+
+  # Sørg for, at alle input har standardværdier
+  observe({
+    updateSelectInput(session, "menu_type", selected = "Alle")
+    updateSelectInput(session, "basis_varer", selected = "Vælg vare")
+    updateSelectInput(session, "enhed_alle_varer", selected = "stk")
+  })
 
   # loader tidligere indkøbssedler
   tidl_kob <- mest_brugte_varer(c(varer$enhed, varer_custom$enhed))
@@ -132,7 +120,7 @@ server <- function(session, input, output) {
     }
 
     retter_tmp %>%
-      filter(retter != "V\u00E6lg ret") %>%
+      filter(retter != "Vælg ret") %>%
       select(retter, count) %>%
       wordcloud2(retter, size = .3, color = 'random-dark', backgroundColor = "white",
                  minRotation = pi / 3, maxRotation = pi / 2, shape = "cardioid",
@@ -168,7 +156,7 @@ server <- function(session, input, output) {
                     ret_fre(), ret_lor(), ret_son())
 
     uge_navne <- c("Mandag", "Tirsdag", "Onsdag", "Torsdag",
-                   "Fredag", "L\u00F8rdag", "S\u00F8ndag")
+                   "Fredag", "Lørdag", "Søndag")
 
     names(ret_all) <- uge_navne
     ret_all <- ret_all[lengths(ret_all) != 0]
@@ -195,7 +183,7 @@ server <- function(session, input, output) {
   # mulighed for at tilføje varer
   observeEvent(input$add_varer, {
 
-    if (input$basis_varer != "V\u00E6lg vare") {
+    if (input$basis_varer != "Vælg vare") {
       varer_tmp <- varer[varer$Indkobsliste == input$basis_varer, ]
       varer_tmp$maengde <- varer_tmp$maengde * input$antal_basis_varer
       varer_tmp$enhed <- input$enhed_alle_varer
@@ -262,7 +250,7 @@ server <- function(session, input, output) {
         arrange(kat_1, kat_2)
 
       # runder op
-      rund_op <- c("stk", "d\u00E5se(r)", "pakke(r)", "rulle(r)")
+      rund_op <- c("stk", "dåse(r)", "pakke(r)", "rulle(r)")
       indkob$maengde <- ifelse(indkob$enhed %in% rund_op,
                                ceiling(indkob$maengde), indkob$maengde)
 
@@ -293,7 +281,7 @@ server <- function(session, input, output) {
         indkob <- bind_rows(indkob, ingr_pr_ret)
       }
 
-      names(indkob) <- "Indk\u00F8bsliste"
+      names(indkob) <- "Indkøbsliste"
 
       indkobsseddel$data <- indkob
 
@@ -335,8 +323,8 @@ server <- function(session, input, output) {
   output$indkobsseddel <- DT::renderDataTable(server = FALSE, {
 
     page_len <- ifelse(is.null(indkobsseddel$data), 1,
-                  ifelse(any(indkobsseddel$data[["Indk\u00F8bsliste"]] == ""),
-                         which(indkobsseddel$data[["Indk\u00F8bsliste"]] == "")[1] - 1,
+                  ifelse(any(indkobsseddel$data[["Indkøbsliste"]] == ""),
+                         which(indkobsseddel$data[["Indkøbsliste"]] == "")[1] - 1,
                          nrow(indkobsseddel$data)))
 
     # Return a data table
