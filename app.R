@@ -34,6 +34,8 @@ ui <- dashboardPage(
         fluidRow(
           lapply(c("Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"), function(day) {
             box(title = day, status = "warning", width = 3,
+                selectInput(paste0("ret_", tolower(day)), "Vælg ret",
+                            choices = c("Vælg ret", retter$retter)),
                 DT::dataTableOutput(paste0("dt_", tolower(day))))
           })
         )
@@ -127,8 +129,7 @@ server <- function(session, input, output) {
                  rotateRatio = 0.3)
   })
 
-  # Opskrifter ----
-  # Use the general function for each day
+  # Reaktive opskrifter for hver dag
   ret_man <- create_reactive_recipe("man", input)
   ret_tirs <- create_reactive_recipe("tirs", input)
   ret_ons <- create_reactive_recipe("ons", input)
