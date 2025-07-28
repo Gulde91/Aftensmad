@@ -151,7 +151,7 @@ mest_brugte_varer <- function(enheder) {
   enhed <- gsub("\\(", "\\\\(", enhed)
   enhed <- gsub("\\)", "\\\\)", enhed)
 
-  varer$Indkøbsliste <- sub(enhed, "", varer$Indkøbsliste, perl = T)
+  varer$Indkøbsliste <- sub(enhed, "", varer$Indkøbsliste, perl = TRUE)
   varer$Indkøbsliste <- trimws(varer$Indkøbsliste)
 
   out <- varer |>
