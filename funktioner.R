@@ -139,7 +139,7 @@ add_links <- function(retter, links) {
 #' @return Data frame med de mest brugte varer.
 mest_brugte_varer <- function(enheder) {
 
-  files <- list.files("./indkobssedler/")
+  files <- list.files("./data/indkobssedler/")
 
   varer <- lapply(files, find_varer) |> bind_rows()
 
@@ -171,7 +171,7 @@ mest_brugte_varer <- function(enheder) {
 #' @return Data frame med varer.
 find_varer <- function(x) {
 
-  load(paste0("./indkobssedler/", x))
+  load(paste0("./data/indkobssedler/", x))
 
   medtag_kun_varer(df)
 }

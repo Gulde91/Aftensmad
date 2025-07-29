@@ -370,7 +370,7 @@ server <- function(session, input, output) {
   observeEvent(input$gem_indkobsseddel, {
 
     df <- indkobsseddel$data
-    path <- paste0("./indkobssedler/indkobsseddel_", gsub("-", "", Sys.Date()), ".rda")
+    path <- paste0("./data/indkobssedler/indkobsseddel_", gsub("-", "", Sys.Date()), ".rda")
     save(df, file = path)
 
   })

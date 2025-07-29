@@ -595,7 +595,7 @@ salater_opskrifter <- list(
 )
 
 # basis varer ----
-varer_custom <- read.csv("./basis_varer.txt", fileEncoding = "UTF-8")
+varer_custom <- read.csv("./data/basis_varer.txt", fileEncoding = "UTF-8")
 
 varer <- c(opskrifter, salater_opskrifter) |> 
   lapply(function(x) {names(x)[1] <- "Indkobsliste"; return(x)}) |> 
