@@ -241,7 +241,7 @@ server <- function(session, input, output) {
     )
 
     varer_custom_new <- bind_rows(varer_custom, varer_manuel_tmp)
-    write.csv(varer_custom_new, file = "./basis_varer.txt", 
+    write.csv(varer_custom_new, file = "./data/basis_varer.txt", 
               row.names = FALSE,
               fileEncoding = "UTF-8")
     message(input$basis_varer_manuel, " er nu gemt i basis_varer.txt")
