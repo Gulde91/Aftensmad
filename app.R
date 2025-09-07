@@ -12,7 +12,7 @@ source("./funktioner.R")
 ui <- fluidPage(
 
   # Application title
-  titlePanel("Planl\u00E6g aftensmad - test"),
+  titlePanel("Planl\u00E6g aftensmad"),
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(
