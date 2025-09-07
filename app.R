@@ -9,11 +9,10 @@ library(purrr)
 source("./data.R")
 source("./funktioner.R")
 
-# Define UI for application that draws a histogram ----
 ui <- fluidPage(
 
   # Application title
-  titlePanel("Planl\u00E6g aftensmad"),
+  titlePanel("Planl\u00E6g aftensmad - test"),
 
   # Sidebar with a slider input for number of bins
   sidebarLayout(
