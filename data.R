@@ -331,7 +331,6 @@ lasagne_okse_opskr <- tibble::tribble(
   "l\u00F8g", 0.5, "stk", "frugt og gr\u00F8nt", "",
   "hvidl\u00F8gsfed", 1, "stk", "frugt og gr\u00F8nt", "",
   "oregano", 0.5, "tsk", "konserves", "krydderi",
-  "timian", 0.25, "tsk", "konserves", "krydderi",
   "guler\u00F8dder", 50, "gram", "frugt og gr\u00F8nt", "",
   "tomatpure", 25, "gram", "konserves", "tomat",
   "hakkede tomater", 0.5, "d\u00E5se(r)", "konserves", "tomat",
@@ -341,7 +340,7 @@ lasagne_okse_opskr <- tibble::tribble(
   "hvedemel", 10, "gram", "konserves", "mel",
   "skummetm\u00E6lk", 0.075, "liter", "mejeri", "m\u00E6lk",
   "muskatn\u00F8d", 0.1, "tsk", "konserves", "krydderi",
-  "frisk mozzarella", 0.25, "stk", "mejeri", "ost",
+  "frisk mozzarella", 0.5, "stk", "mejeri", "ost",
   "lasagneplader", 2.25, "stk", "konserves", ""
 )
 
